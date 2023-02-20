@@ -1,0 +1,159 @@
+body{
+    background: linear-gradient(
+        to top,
+        #faf8ed 0%,
+        #faf8ed 100%
+        /* #8bdfe2 100% */
+    );
+ }
+
+.grid-index{
+    display: grid;
+    grid-template-rows: auto auto auto;
+    /* border: solid black 4px; */
+    padding: 20px;
+    width: 80%;
+    margin: 10% auto;
+    justify-content: center;
+}
+.grid-login{
+    display: grid;
+    grid-template-rows: auto auto auto;
+    /* border: solid black 4px; */
+    padding: 20px;
+    width: 80%;
+    margin: 10% auto;
+    justify-content: center;
+}
+
+.grid-home{
+    display: grid;
+    grid-template-columns: auto auto;
+    /* border: solid black 4px; */
+    width: 100% !important;
+    height: 100%;
+}
+
+.grid-verPaciente{
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 2rem;
+    padding: 0 1rem ;
+}
+.caja{
+    /* border: solid red 4px; */
+    text-align: center;
+}
+
+/*------------------ Elementos de HOME----------------------*/
+.navbar{
+    display: grid;
+    justify-content: space-between;
+    grid-template-columns: auto auto;
+    margin: 0 2%;
+    grid-column: 1/3;
+    font-size: 20px;
+}
+
+.saludo{
+    font-weight: bold;
+}
+.titulo-home{
+    margin-top: 30px;
+    grid-column: 1/3;
+}
+.barraBusqueda-home{
+    display: grid;
+    grid-template-columns: 90% auto;
+    grid-column: 1/3;
+    padding: 0 30%;
+}
+.agregarRegistro-home{
+    display: grid;
+    justify-content: flex-start;
+    grid-column: 1/3;
+    margin: 30px 20%;
+    font-size: 20px;
+}
+.tablaRegistros-home{
+    grid-column: 1/3;
+    margin: 0 20%;
+}
+/* Elementos de HOME - Tabla de registros */
+.icon{
+    height: 35px;
+}
+.acciones{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* ------------------------------Elementos de VERPACIENTE---------------------------------------- */
+.titulo-verPaciente{
+    margin-top: 30px;
+    grid-column: 1/3;
+}
+
+.instrucciones-verPaciente{
+    display: grid;
+    justify-content: center;
+    margin: 0 25%;
+    font-size: 20px;
+    grid-column: 1/3;
+}
+.tituloCaja-datosPaciente{
+    grid-column: 1/3;
+}
+.datosPaciente-verPaciente{
+    display: grid;
+    width: fit-content;
+    height: 500px;
+    text-align: left;
+    grid-template-columns: auto auto;
+
+    margin: 20px 0 0 10%;
+    row-gap: 10px;
+    column-gap: 20px;
+    justify-content: space-between;
+    padding: 10% 25%;
+    background-color: antiquewhite;
+}
+.datosTutor-verPaciente{
+    display: grid;
+    width: fit-content;
+    height: 500px;
+    text-align: left;
+    grid-template-columns: auto auto;
+    margin: 20px 10% 0 0;
+    row-gap: 10px;
+    column-gap: 20px;
+    justify-content: space-between;
+    padding: 10% 25%;
+    background-color: antiquewhite;
+}
+
+.iconoEditar-verPaciente{
+    margin: 10% 12% 0 0;
+    /* margin-top: 20%; */
+    /* display: grid;
+    grid-template-rows: auto auto;
+    justify-content: end;
+    grid-column: 1/3; */
+}
+
+.iconosFooter{
+    display: grid;
+    grid-template-columns: auto auto;
+    margin-top: 2%;
+    margin-right: 6%;
+    grid-column: 1/3;
+    justify-content: end;
+}
+
+.iconoAtras{
+    margin: 10% 12% 0 0;
+}
+.iconoGuardar{
+    margin: 10% 12% 0 0;
+}
