@@ -13,9 +13,9 @@
     <div class="grid-verPaciente">
         <div class="navbar">
             <div class="logo-verPaciente caja">
-                <a href="#"><img src="./assets/img/icons8-psi-67.png"></a>
                <span>Sistema evaluador del test Bender-Koppitz</span>
             </div>
+            <div ><a href="home.html"><img class="icon-navbar" src="./assets/img/icons8-psi-67.png"></a></div>
            <div class="saludo-verPaciente caja">
                <span class="saludo">Buenas tardes,  </span>
                <span> Cristian</span>
@@ -25,12 +25,12 @@
         <div class="instrucciones-verPaciente caja"> <span>A continuación, puedes editar los datos del paciente</span></div>
         <div class="datosPaciente-verPaciente caja">
             <h4 class="tituloCaja-datosPaciente">Datos del paciente</h4>
-            <span>Nombre</span><input class="inputDatoPaciente" type="text"  id="inputNombrePaciente">
-            <span>A. Paterno</span><input class="inputDatoPaciente" type="text"  id="inputAPaternoPaciente">
-            <span>A. Materno</span><input class="inputDatoPaciente" type="text"  id="inputAMaternoPaciente">
-            <span>Fecha de nacimiento </span><input class="inputDatoPaciente" type="date"  id="inputFechaNacimientoPaciente">
-            <span>Psicólogo de cabecera </span>
-            <select class="inputDatoPaciente" type="" id="inputDoctorPaciente">
+            <span>Nombre</span><input class="inputDatoPaciente form-control" type="text"  id="inputNombrePaciente">
+            <span>A. Paterno</span><input class="inputDatoPaciente form-control" type="text"  id="inputAPaternoPaciente">
+            <span>A. Materno</span><input class="inputDatoPaciente form-control" type="text"  id="inputAMaternoPaciente">
+            <span>Fecha de nacimiento </span><input class="inputDatoPaciente form-control" type="date"  id="inputFechaNacimientoPaciente">
+            <span>Especialista principal </span>
+            <select class="inputDatoPaciente custom-select" type="" id="inputDoctorPaciente">
                 <option>Arturo Ramirez</option>
             </select>
             <br/>
@@ -40,12 +40,12 @@
         </div>
         <div class="datosTutor-verPaciente caja">
             <h4 class="tituloCaja-datosPaciente">Datos del tutor</h4>
-            <span>Parentezco</span><select class="inputDatoPaciente" name="selectTutor" id="inputTutor"></select>
-            <span>Nombre</span><input class="inputDatoPaciente" type="text"  id="inputNombreTutor">
-            <span>A. Paterno</span><input class="inputDatoPaciente" type="text"  id="inputAPaternoTutor">
-            <span>A. Materno</span><input class="inputDatoPaciente" type="text"  id="inputAMaternoTutor">
-            <span>Telefono de contacto</span><select class="inputDatoPaciente" name="selectTelefonoTutor" id="inputTelContactoTutor"></select>
-            <span>Correo electrónico</span><select class="inputDatoPaciente" name="selectEmailTutor" id="inputEmailTutor"></select>
+            <span>Parentezco</span><select class="inputDatoPaciente form-control" name="selectTutor" id="inputTutor"></select>
+            <span>Nombre</span><input class="inputDatoPaciente form-control" type="text"  id="inputNombreTutor">
+            <span>A. Paterno</span><input class="inputDatoPaciente form-control" type="text"  id="inputAPaternoTutor">
+            <span>A. Materno</span><input class="inputDatoPaciente form-control" type="text"  id="inputAMaternoTutor">
+            <span>Telefono de contacto</span><select class="inputDatoPaciente form-control" name="selectTelefonoTutor" id="inputTelContactoTutor"></select>
+            <span>Correo electrónico</span><select class="inputDatoPaciente custom-select" name="selectEmailTutor" id="inputEmailTutor"></select>
             <br/>
             <br/>
             <br/>
@@ -53,7 +53,7 @@
         </div>
         <div class="iconosFooter">
             <div class="iconoAtras">
-                <a href="#"><img src="./assets/img/icons8-go-back-50.png"></a>
+                <a href="verPaciente.html"><img src="./assets/img/icons8-go-back-50.png"></a>
                 <span>Regresar</span>
             </div>
             <div class="iconoGuardar">

@@ -1,10 +1,11 @@
 body{
-    background: linear-gradient(
+    background: white;
+    /* linear-gradient(
         to top,
         #faf8ed 0%,
         #faf8ed 100%
         /* #8bdfe2 100% */
-    );
+    /* ); */
  }
 
 .grid-index{
@@ -12,8 +13,8 @@ body{
     grid-template-rows: auto auto auto;
     /* border: solid black 4px; */
     padding: 20px;
-    width: 80%;
-    margin: 10% auto;
+    width: 40%;
+    margin: 12% auto;
     justify-content: center;
 }
 .grid-login{
@@ -21,7 +22,7 @@ body{
     grid-template-rows: auto auto auto;
     /* border: solid black 4px; */
     padding: 20px;
-    width: 80%;
+    width: 30%;
     margin: 10% auto;
     justify-content: center;
 }
@@ -40,21 +41,58 @@ body{
     column-gap: 2rem;
     padding: 0 1rem ;
 }
+
+.grid-registroPaciente{
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 2rem;
+    padding: 0 1rem ;
+}
 .caja{
     /* border: solid red 4px; */
     text-align: center;
 }
+.icon-navbar{
+    height: 50px;
+    width: 50px;
+    margin: 25px;
+}
+
+/* -----------------Elementos del login------------------- */
+#btn-iniciar-sesion-submit, #btn-iniciar-sesion{
+    height: 3rem;
+    margin-left: 25%;
+}
+#username, #password{
+    height: 3rem;
+    margin-left: 7%;
+}
+#formulario-login{
+    display: grid;
+    align-items: center;
+}
+
 
 /*------------------ Elementos de HOME----------------------*/
 .navbar{
+    display: grid;
+    justify-content: space-between;
+    grid-template-columns: 30% 5% 30%;
+    margin: 0 2%;
+    grid-column: 1/3;
+    font-size: 20px;
+    background-color: #0da5f19b;
+    color: #fff;
+}
+
+/* .navbar{
     display: grid;
     justify-content: space-between;
     grid-template-columns: auto auto;
     margin: 0 2%;
     grid-column: 1/3;
     font-size: 20px;
-}
-
+} */
 .saludo{
     font-weight: bold;
 }
@@ -79,6 +117,7 @@ body{
     grid-column: 1/3;
     margin: 0 20%;
 }
+
 /* Elementos de HOME - Tabla de registros */
 .icon{
     height: 35px;
@@ -87,8 +126,6 @@ body{
     display: flex;
     justify-content: space-between;
 }
-
-
 /* ------------------------------Elementos de VERPACIENTE---------------------------------------- */
 .titulo-verPaciente{
     margin-top: 30px;
@@ -111,13 +148,14 @@ body{
     height: 500px;
     text-align: left;
     grid-template-columns: auto auto;
-
+    border: 1px solid black;
+    border-radius: 25px;
     margin: 20px 0 0 10%;
     row-gap: 10px;
     column-gap: 20px;
     justify-content: space-between;
-    padding: 10% 25%;
-    background-color: antiquewhite;
+    padding: 5% 25%;
+    /* background-color: antiquewhite; */
 }
 .datosTutor-verPaciente{
     display: grid;
@@ -126,13 +164,14 @@ body{
     text-align: left;
     grid-template-columns: auto auto;
     margin: 20px 10% 0 0;
+    border: 1px solid black;
+    border-radius: 25px;
     row-gap: 10px;
     column-gap: 20px;
     justify-content: space-between;
-    padding: 10% 25%;
-    background-color: antiquewhite;
+    padding: 5% 25%;
+    /* background-color: antiquewhite; */
 }
-
 .iconoEditar-verPaciente{
     margin: 10% 12% 0 0;
     /* margin-top: 20%; */
@@ -142,6 +181,188 @@ body{
     grid-column: 1/3; */
 }
 
+/* ELEMENTOS verPrueba */
+.prueba-verPrueba{
+    display: grid;
+    /* border: solid black 1px; */
+    grid-template-columns: auto;
+}
+.datosPrueba-verPrueba{
+    display: grid;
+    /* border: solid yellow 1px; */
+    grid-template-columns: auto auto auto;
+    padding: 2% 2%;
+}
+[class*="-verPrueba caja"]{
+    /* border: 1px solid red; */
+    text-align: justify;
+}
+.escalaPrueba-verPrueba{
+    display: grid;
+    /* margin: 0 5%; */
+    grid-template-columns: auto auto auto;
+    /* border: 1px solid black; */
+    border-radius: 25px;
+    padding: 0% 10% 0% 10%;
+}
+.observacionesPrueba-verPrueba{
+    display: grid;
+    grid-template: auto auto;
+    /* border: 1px blue solid; */
+    text-align: left;
+    padding: 0 2%;
+}
+.tarjeta{
+    display: grid;
+    justify-content:left;
+    grid-template-columns: auto auto; 
+}
+.escalaValor-input{
+    margin-top: 3px;
+}
+
+/* ELEMENTOS de agregarPrueba */
+.agregarImagenes-agregarPrueba{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    margin-top: 3%;
+    padding: 0 15%;
+    
+}
+
+/* ELEMENTOS de evaluarPrueba */
+.titulos-evaluarPrueba{
+    display: grid;
+    grid-template-columns: 70% 30%;
+    margin-top: 3rem;
+    padding: 0 20%;
+}
+.evaluacion-evaluarPrueba{
+    display: grid;
+    grid-template-columns: 70% 30%;
+    /* justify-content:space-evenly; */
+    padding: 0 20%;
+    /* margin-top: 10px; */
+}
+.imagenesPrueba-evaluarPrueba{
+    /* border: 1px blue solid; */
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    column-gap: 20px;
+}
+.aspectosEvaluar-evaluarPrueba{
+    /* border: 1px red solid; */
+    display: grid;
+    width: 100%;
+    grid-template-columns: auto auto;
+    column-gap: 3%;
+    justify-content: start;
+    /* margin-left: 20%; */
+}
+.imgPrueba, .imgOriginal{
+    text-align: center;
+    border: solid 1px;
+    border-radius: 25px;
+    width: 100%;
+    height: 100%;
+}
+.prefooter-evaluarPrueba{
+    display: grid;
+    grid-template-columns: 35% 35% auto;
+    padding: 0 20%; 
+}
+.manual-evaluarPrueba{
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    column-gap: 10px;
+}
+.sub{
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-column: 1/3;
+    text-align: center;
+}
+.img-figura{
+    width: auto;
+    max-height: 100%;
+}
+.box-calificadores{
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 10px;
+    padding: 10% 30%;
+    /* border: 1px solid black; */
+}
+
+
+  .form-element {
+    position: relative;
+    width:100px;
+    height:100px;
+  }
+.form-element input{
+    display: none;
+}
+
+.form-element label{
+    display: flex;
+    width: 100%;
+    flex-direction:column;
+    justify-content: center;
+    height: 100%;
+    cursor: pointer;
+    border: 2px solid #ddd;
+    background-color: #fff;
+    box-shadow: 0px 5px 20px 2px rgba(0,0,0,0.1);
+    text-align: center;
+    font-family: "Roboto", sans-serif;
+}
+
+
+.form-element .titulo{
+    font-size: 15px;
+    color: #555;
+    padding: 5px 0px;
+    transition: all 200ms ease-in-out;
+}
+
+.form-element label:before{
+    content:"✓";
+    position:absolute;
+    width:18px;
+    height:18px;
+    top:8px;
+    left:8px;
+    background:#0da5f19b;
+    color:#fff;
+    text-align:center;
+    line-height:18px;
+    font-size:14px;
+    font-weight:600;
+    border-radius:50%;
+    opacity:0;
+    transform:scale(0.5);
+    transition:all 200ms ease-in-out;
+  }
+  .form-element input:checked + label:before {
+    opacity:1;
+    transform:scale(1);
+  }
+  .form-element input:checked + label .icon {
+    color:#0da5f19b;
+  }
+  .form-element input:checked + label .title {
+    color:#0da5f19b;
+  }
+  .form-element input:checked + label {
+    border:2px solid #0da5f19b;
+  }
+
+  
+
+/* Iconos en pantallas */
 .iconosFooter{
     display: grid;
     grid-template-columns: auto auto;
@@ -150,10 +371,16 @@ body{
     grid-column: 1/3;
     justify-content: end;
 }
-
+[class^=img]>input{
+    display: none;
+  }
+.img-figura{
+    width: 30%;
+}
 .iconoAtras{
     margin: 10% 12% 0 0;
 }
 .iconoGuardar{
     margin: 10% 12% 0 0;
 }
+
