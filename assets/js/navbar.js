@@ -19,7 +19,7 @@ window.addEventListener('load',async (e)=>{
         saludo.innerHTML = 'Buenos dias, ';
     }else if(now.getHours() > 11 && now.getHours() < 19){
         saludo.innerHTML = 'Buenas tardes, ';
-    }else if(now.getHours() > 19 && now.getHours() < 24){
+    }else if(now.getHours() > 18 && now.getHours() < 24){
         saludo.innerHTML = 'Buenas noches, ';
     }
     nombre.innerHTML = sessionStorage.nombreEspecialista;

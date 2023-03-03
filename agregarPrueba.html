@@ -9,6 +9,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
     <script src="./assets/js/fk/firekey.js"></script>
 
     <title>Sistema evaluador del test Bender - Koppitz</title>
@@ -37,57 +38,57 @@
         <div class="agregarImagenes-agregarPrueba">
             <div class="imgA">
                 <h5>Figura A</h5>
-                <label for="input-imgA"><img class="img-figura" src="./assets/img/add-image.png"></label>
+                <label for="input-imgA"><img id="A" class="img-figura" src="./assets/img/add-image.png"></label>
                 <input id="input-imgA" type="file">
             </div>
             <div class="img1">
                 <h5>Figura 1</h5>
-                <label for="input-img1"><img class="img-figura" src="./assets/img/add-image.png"></label>
+                <label for="input-img1"><img id="1" class="img-figura" src="./assets/img/add-image.png"></label>
                 <input id="input-img1" type="file">
             </div>
             <div class="img2">
                 <h5>Figura 2</h5>
-                <label for="input-img2"><img class="img-figura" src="./assets/img/add-image.png"></label>
+                <label for="input-img2"><img id="2" class="img-figura" src="./assets/img/add-image.png"></label>
                 <input id="input-img2" type="file">
             </div>
             <div class="img3">
                 <h5>Figura 3</h5>
-                <label for="input-img3"><img class="img-figura" src="./assets/img/add-image.png"></label>
+                <label for="input-img3"><img id="3" class="img-figura" src="./assets/img/add-image.png"></label>
                 <input id="input-img3" type="file">
             </div>
             <div class="img4">
                 <h5>Figura 4</h5>
-                <label for="input-img4"><img class="img-figura" src="./assets/img/add-image.png"></label>
+                <label for="input-img4"><img id="4" class="img-figura" src="./assets/img/add-image.png"></label>
                 <input id="input-img4" type="file">
             </div>
             <div class="img5">
                 <h5>Figura 5</h5>
-                <label for="input-img5"><img class="img-figura" src="./assets/img/add-image.png"></label>
+                <label for="input-img5"><img id="5" class="img-figura" src="./assets/img/add-image.png"></label>
                 <input id="input-img5" type="file">
             </div>
             <div class="img6">
                 <h5>Figura 6</h5>
-                <label for="input-img6"><img class="img-figura" src="./assets/img/add-image.png"></label>
+                <label for="input-img6"><img id="6" class="img-figura" src="./assets/img/add-image.png"></label>
                 <input id="input-img6" type="file">
             </div>
             <div class="img7">
                 <h5>Figura 7</h5>
-                <label for="input-img7"><img class="img-figura" src="./assets/img/add-image.png"></label>
+                <label for="input-img7"><img id="7" class="img-figura" src="./assets/img/add-image.png"></label>
                 <input id="input-img7" type="file">
             </div>
             <div class="img8">
                 <h5>Figura 8</h5>
-                <label for="input-img8"><img class="img-figura" src="./assets/img/add-image.png"></label>
+                <label for="input-img8"><img id="8" class="img-figura" src="./assets/img/add-image.png"></label>
                 <input id="input-img8" type="file">
             </div>
         </div>
         <div class="iconosFooter">
             <div class="iconoAtras">
-                <a href="listarPruebas.html"><img src="./assets/img/icons8-go-back-50.png"></a>
+                <a id="back-button" href="listarPruebas.html"><img src="./assets/img/icons8-go-back-50.png"></a>
                 <span>Regresar</span>
             </div>
             <div class="iconoEditar-verPaciente">
-                <a href="evaluarPrueba.html"><img src="./assets/img/icons8-go-50.png"></a>
+                <a  onClick = "subirImagenes();" href="#"><img src="./assets/img/icons8-go-50.png"></a>
                 <span>Siguiente</span>
             </div>
           
@@ -103,4 +104,5 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="./assets/js/alertas.js"></script>
 <script src="./assets/js/navbar.js"></script>
+<script src="./assets/js/agregarPrueba.js"></script>
 </html>
