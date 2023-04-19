@@ -39,6 +39,7 @@ const login = async (idEspecialista,especialista)=>{
     sessionStorage.setItem('idEspecialista', idEspecialista);
     sessionStorage.setItem('nombreEspecialista', especialista);
     sessionStorage.setItem('estadoSesion', true)
+    sessionStorage.setItem('urls', [])
     await alerta('Bienvenido(a) '+especialista, 'Inicio de sesión exitoso', 'success');
     setTimeout(() =>{
         window.location='home.html';

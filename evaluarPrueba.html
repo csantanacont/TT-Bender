@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <script src="https://unpkg.com/js-image-zoom@0.7.0/js-image-zoom.js" type="application/javascript"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script src="./assets/js/fk/firekey.js"></script>
@@ -23,7 +24,7 @@
             <div class="saludo-home caja">
                 <div class="saludo-nombre">
                      <span id="saludo" class="saludo">Buenas tardes,  </span>
-                     <span id="nombre-navbar"> Cristian</span>
+                     <span id="nombre-navbar"></span>
                 </div>
                 <div class="logaut-navbar">
                   <a id="logaut" style="color: black;" href="#">Cerrar sesión</a>
@@ -34,16 +35,17 @@
         
         <div class="titulo-home caja"><h4>Evaluación de la figura </h4> <span">Realiza la evaluación de la tarjeta o verifica los valores asignados por el sistema: </span></div>
         <div class="titulos-evaluarPrueba">
-            <h4 style="text-align: center;">Tarjeta n</h4>
-            <h4 style="text-align: center;">Aspectos a evaluar</h4>
+            <h2 id="tituloTarjeta" style="text-align: center;"></h2>
+            <h2 style="text-align: center;">Aspectos a evaluar</h2>
         </div>
         <div class="evaluacion-evaluarPrueba">
             <div class="imagenesPrueba-evaluarPrueba">
-                <div class="imgOriginal">
-                    <img class="img-figura" src="./assets/img/add-image.png">
+                <div id="imgOriginalDiv" class="imgOriginal">
+                    <!-- <img id="imgIdeal" class="img-figura zoom" src="./assets/img/add-image.png"> -->
                 </div>
-                <div class="imgPrueba">
-                    <img class="img-figura" src="./assets/img/add-image.png">
+                
+                <div id="imgPruebaDiv" class="imgPrueba">
+                    <img id="img-Prueba"/>
                 </div>
             </div>  
             <div class="aspectosEvaluar-evaluarPrueba">
@@ -54,7 +56,7 @@
                 <input id="A-3"   class="form-control escalaValor-input" type="number" min="0" max="1"><label for="A-3" >Integración</label> -->
 
                 <div id="box-clasificadores" class="box-calificadores">
-                    <div class="form-element">
+                    <!-- <div class="form-element">
                         <input type="checkbox" name="1a" value="1a" id="1a">
                         <label for="1a">
                             <div class="titulo">Distorsión de la forma</div>
@@ -84,7 +86,7 @@
                             <label for="3">
                                 <div class="titulo">Distorsión de la forma</div>
                             </label>      
-                    </div>
+                    </div> -->
 
                 </div>
             </div>
@@ -94,20 +96,20 @@
                 <div><h3>Ideal</h3></div>
                 <div><h3>Prueba</h3></div>               
             </div>
-            <!-- <div class="manual-evaluarPrueba">
+            <div class="manual-evaluarPrueba">
                 <label for="manual" class="mt-4">Consultar manual de evaluación</label><a id="manual" href="#"><img src="./assets/img/open-book.png"></a>
-            </div> -->
+            </div>
             
         </div>
-        <div class="iconosFooter">
-            <div class="iconoAtras">
+        <div id="iconosFooter" class="iconosFooter">
+            <!-- <div class="iconoAtras">
                 <a href="agregarPrueba.html"><img src="./assets/img/icons8-go-back-50.png"></a>
                 <span>Regresar</span>
-            </div>
-            <div class="iconoEditar-verPaciente">
+            </div> -->
+            <!-- <div class="iconoEditar-verPaciente">
                 <a href="crearReporte.html"><img src="./assets/img/icons8-go-50.png"></a>
                 <span>Siguiente</span>
-            </div>
+            </div> -->
           
         </div>        
         
@@ -122,4 +124,5 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="./assets/js/alertas.js"></script>
 <script src="./assets/js/navbar.js"></script>
+<script src="./assets/js/evaluarPrueba.js" type="module"></script>
 </html>

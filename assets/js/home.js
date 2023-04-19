@@ -3,6 +3,8 @@ const agregarReg_icon = document.getElementById("agregarRegistro-icon");
 
 
 window.addEventListener('load',()=>{
+    localStorage.removeItem("imgB64");
+    localStorage.removeItem("evaluacion");
     let datosTabla = document.getElementById("datosTabla");
     datosTabla.innerHTML = ``;
 
@@ -32,16 +34,37 @@ window.addEventListener('load',()=>{
 })
 
 let borrarRegistro = async (id) =>{
-    await db.collection("pacientes").doc(id).delete()
-            .then(() =>{
-                Swal.fire(
-                    'Eliminado',
-                    'El registro ha sido eliminado',
-                    'success'
-                  ).then(()=>{
-                    location.reload();
-                  })
+    let idTutorPorBorrar;
+    await db.collection("pacientes").doc(id).get().then((querySnapshot) =>{
+        idTutorPorBorrar = querySnapshot.data().idTutor;
+    })
+
+    await db.collection("tutores").doc(idTutorPorBorrar).delete()
+    .then(async () =>{
+        await db.collection("telefonos")
+        .where("idTutor","==",idTutorPorBorrar)
+        .get()
+        .then((querySnapshot)=>{
+            querySnapshot.docs.forEach(doc =>{
+                db.collection("telefonos").doc(doc.id).delete()
+                    .then(async () =>{
+                        await db.collection("pacientes").doc(id).delete()
+                        .then(() =>{
+                            Swal.fire(
+                                'Eliminado',
+                                'El registro ha sido eliminado',
+                                'success'
+                            ).then(()=>{
+                                location.reload();
+                            })
+                        })
+                    })
             })
+
+        })
+        
+    })
+    
 }
 agregarReg_icon.addEventListener('click', () =>{
     let listaEspecialistas = document.getElementById('psicologoCabeceraPaciente');
@@ -66,9 +89,9 @@ formAgregarPaciente.addEventListener('submit',async (e) =>{
     let fechaActualFormateada
 
     if(mes < 10){
-        fechaActualFormateada = `${anio}-0${mes}-${dia}`
+        fechaActualFormateada = `${dia}-0${mes}-${anio}`
       }else{
-        fechaActualFormateada = `${anio}-${mes}-${dia}`
+        fechaActualFormateada = `${dia}-${mes}-${anio}`
       }
     await db.collection("pacientes")
     .where("CURP","==",document.getElementById("curpPaciente").value)
@@ -77,10 +100,10 @@ formAgregarPaciente.addEventListener('submit',async (e) =>{
         if(querySnapshot.docs.length == 0){
             let idTutorPaciente; 
             let dataTutor = {
-            nombre: document.getElementById("nombreTutor").value,
-            apellidoPaterno: document.getElementById("aPaternoTutor").value,
-            apellidoMaterno: document.getElementById("aMaternoTutor").value,
-            email: document.getElementById("emailTutor").value,
+            nombre: capitalizarPalabras(document.getElementById("nombreTutor").value),
+            apellidoPaterno: capitalizarPalabras(document.getElementById("aPaternoTutor").value),
+            apellidoMaterno: capitalizarPalabras(document.getElementById("aMaternoTutor").value),
+            email: document.getElementById("emailTutor").value.toLowerCase(),
             parentezco: document.getElementById("parentezcoTutor").value
         }
         await db.collection("tutores").add(dataTutor)
@@ -89,11 +112,11 @@ formAgregarPaciente.addEventListener('submit',async (e) =>{
             idTutorPaciente = docRef.id;
         });
         let dataPaciente = {
-            nombre: document.getElementById("nombrePaciente").value,
-            apellidoPaterno: document.getElementById("aPaternoPaciente").value,
-            apellidoMaterno: document.getElementById("aMaternoPaciente").value,
+            nombre: capitalizarPalabras(document.getElementById("nombrePaciente").value),
+            apellidoPaterno: capitalizarPalabras(document.getElementById("aPaternoPaciente").value),
+            apellidoMaterno: capitalizarPalabras(document.getElementById("aMaternoPaciente").value),
             fechaNacimiento: document.getElementById("fechaNacimientoPaciente").value,
-            CURP:document.getElementById("curpPaciente").value,
+            CURP:document.getElementById("curpPaciente").value.toUpperCase(),
             idTutor: idTutorPaciente,
             idEspecialistaCabecera: document.getElementById("psicologoCabeceraPaciente").value,
             fechaRegistro: fechaActualFormateada
@@ -293,3 +316,11 @@ document.getElementById('barra-busqueda').addEventListener("change", (e) =>{
         location.reload();
     }
 })
+
+const capitalizarPalabras = (val) => {  
+    return val.toLowerCase()
+              .trim()
+              .split(' ')
+              .map( v => v[0].toUpperCase() + v.substr(1) )
+              .join(' ');  
+  }

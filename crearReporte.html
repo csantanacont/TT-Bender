@@ -9,12 +9,12 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
     <script src="./assets/js/fk/firekey.js"></script>
 
     <title>Sistema evaluador del test Bender - Koppitz</title>
 </head>
 <body>
-
     <div class="grid-verPrueba">
         <div class="navbar">
             <div class="logo-verPaciente caja">
@@ -25,7 +25,7 @@
         <div class="saludo-home caja">
             <div class="saludo-nombre">
                 <span id="saludo" class="saludo">Buenas tardes,  </span>
-                <span id="nombre-navbar"> Cristian</span>
+                <span id="nombre-navbar"></span>
             </div>
             <div class="logaut-navbar">
             <a id="logaut" style="color: black;" href="#">Cerrar sesión</a>
@@ -33,78 +33,79 @@
             
         </div>
         </div>
-        <div class="prueba-verPrueba caja">
+        <div id="main" class="prueba-verPrueba caja">
+            <h5 class="text-center">Reporte de escala de evaluación del test gestáltico visomotor para niños. (Escala Koppitz) </h5>
             <div class="datosPrueba-verPrueba caja">
-                <div class="nombrePaciente-verPrueba caja"><label style="font-weight: bold;">Nombre:</label> <input class="form-control-sm" disabled type="text"></div>    
-                <div class="edadPaciente-verPrueba caja"><label style="font-weight: bold;">Edad(años):</label><input class="form-control-sm" disabled type="number" min="3" max="15"></div>
-                <div class="gradoEscolarPaciente-verPrueba caja"><label style="font-weight: bold;">Grado escolar: </label> <input class="form-control-sm" min="1" max="6" type="number"></div>
-                <div class="fechaPrueba-verPrueba caja"><label style="font-weight: bold;">Fecha: </label> <input class="form-control-sm" type="date"></div>
-                <div class="tiempoPrueba-verPrueba caja"><label style="font-weight: bold;">Tiempo total (minutos): </label> <input class="form-control-sm" min="1" max="100" type="number"></div>
-                <div class="puntajePrueba-verPrueba caja"><label style="font-weight: bold;">Puntaje: </label> <input class="form-control-sm" min="1" max="35" type="number"></div>
+                <div class="nombrePaciente-verPrueba caja"><label style="font-weight: bold;">Nombre: </label> <input id="inputNombrePaciente" class="form-control-sm" disabled type="text"></div>    
+                <div class="edadPaciente-verPrueba caja"><label style="font-weight: bold;">Edad(años): </label><input id="inputEdadPaciente" class="form-control-sm" disabled type="text" min="3" max="15"></div>
+                <div class="gradoEscolarPaciente-verPrueba caja"><label style="font-weight: bold;">Grado escolar: </label> <input id="inputGradoPaciente" class="form-control-sm" min="1" max="6" type="number"></div>
+                <div class="fechaPrueba-verPrueba caja"><label style="font-weight: bold;">Fecha: </label> <input id="inputFechaPrueba" class="form-control-sm" type="date" disabled></div>
+                <div class="tiempoPrueba-verPrueba caja"><label style="font-weight: bold;">Tiempo total (minutos): </label> <input id="inputTiempoPrueba" class="form-control-sm" min="1" max="100" type="number"></div>
+                <div class="puntajePrueba-verPrueba caja"><label style="font-weight: bold;">Puntaje: </label> <input id="inputPuntajePrueba" class="form-control-sm" disabled min="1" max="35" type="text"></div>
             </div>
             <div class="observacionesPrueba-verPrueba">
                     <span><span style="font-weight: bold;">Observaciones:</span>
-                    <textarea class="form-control"></textarea>
+                    <textarea id="inputObservacionesPrueba" class="form-control" cols="50" rows="5"></textarea>
                     <div></div>
             </div><br>
             <span style="font-weight: bold; padding: 2% 2%;">Escala de maduración: </span>
             <div class="escalaPrueba-verPrueba caja">
-                <div class="tarjeta figuraA">Figura A:<div></div>
-                    <input id="A-1a" class="form-control escalaValor-input" type="number" min="0" max="1"><label for="A-1a" >Distorsión de la forma</label>
-                    <input id="A-1b" class="form-control escalaValor-input" type="number" min="0" max="1"><label for="A-1b" >Desproporción</label>
-                    <input id="A-2"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="A-2">Rotación</label>
-                    <input id="A-3"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="A-3" >Integración</label>
+                <div class="tarjeta figuraA"><h5>Figura A:</h5><div></div>
+                    <input id="A-0" class="form-control escalaValor-input " type="checkbox" disabled><label for="A-1a" >Distorsión de la forma</label>
+                    <input id="A-1" class="form-control escalaValor-input " type="checkbox" disabled><label for="A-1b" >Desproporción</label>
+                    <input id="A-2"  class="form-control escalaValor-input " type="checkbox" disabled><label for="A-2">Rotación</label>
+                    <input id="A-3"  class="form-control escalaValor-input " type="checkbox" disabled><label for="A-3" >Integración</label>
                 </div>
-                <div class="tarjeta figura1">Figura 1:<div></div>
-                <input id="1-4" class="form-control escalaValor-input" type="number" min="0" max="1"><label for="1-4" >Distorsión de la forma</label>
-                <input id="1-5" class="form-control escalaValor-input" type="number" min="0" max="1"><label for="1-5" >Rotación</label>
-                <input id="1-6" class="form-control escalaValor-input" type="number" min="0" max="1"><label for="1-6">Perseveración</label>
+                <div class="tarjeta figura1"><h5>Figura 1:</h5><div></div>
+                <input id="1-0" class="form-control escalaValor-input " type="checkbox" disabled><label for="1-4" >Distorsión de la forma</label>
+                <input id="1-1" class="form-control escalaValor-input " type="checkbox" disabled><label for="1-5" >Rotación</label>
+                <input id="1-2" class="form-control escalaValor-input " type="checkbox" disabled><label for="1-6">Perseveración</label>
                 </div>
-                <div class="tarjeta figura2">Figura 2:<div></div>
-                    <input id="2-7"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="2-7" >Rotación</label>
-                    <input id="2-8"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="2-8" >Integración</label>
-                    <input id="2-9"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="2-9">Perseveración</label>
+                <div class="tarjeta figura2"><h5>Figura 2:</h5><div></div>
+                    <input id="2-0"  class="form-control escalaValor-input " type="checkbox" disabled><label for="2-7" >Rotación</label>
+                    <input id="2-1"  class="form-control escalaValor-input " type="checkbox" disabled><label for="2-8" >Integración</label>
+                    <input id="2-2"  class="form-control escalaValor-input " type="checkbox" disabled><label for="2-9">Perseveración</label>
                 </div>
-                <div class="tarjeta figura3">Figura 3:<div></div>
-                    <input id="3-10"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="3-10" >Distorsión de la forma</label>
-                    <input id="3-11"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="3-11" >Rotación</label>
-                    <input id="3-12a"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="3-12a">Integración</label>
-                    <input id="3-12b"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="3-12b" >Linea continua</label>
+                <div class="tarjeta figura3"><h5>Figura 3:</h5><div></div>
+                    <input id="3-0"  class="form-control escalaValor-input " type="checkbox" disabled><label for="3-10" >Distorsión de la forma</label>
+                    <input id="3-1"  class="form-control escalaValor-input " type="checkbox" disabled><label for="3-11" >Rotación</label>
+                    <input id="3-2"  class="form-control escalaValor-input " type="checkbox" disabled><label for="3-12a">Integración</label>
+                    <input id="3-3"  class="form-control escalaValor-input " type="checkbox" disabled><label for="3-12b" >Linea continua</label>
                 </div>
-                <div class="tarjeta figura4">Figura 4:<div></div>
-                    <input id="4-13"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="4-13" >Rotación</label>
-                    <input id="4-14"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="4-14" >Integración</label>
+                <div class="tarjeta figura4"><h5>Figura 4:</h5><div></div>
+                    <input id="4-0"  class="form-control escalaValor-input " type="checkbox" disabled><label for="4-13" >Rotación</label>
+                    <input id="4-1"  class="form-control escalaValor-input " type="checkbox" disabled><label for="4-14" >Integración</label>
                 </div>
-                <div class="tarjeta figura5">Figura 5:<div></div>
-                    <input id="5-15"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="5-15" >Modificación de la forma</label>
-                    <input id="5-16"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="5-16" >Rotación</label>
-                    <input id="5-17a"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="5-17a">Desintegración</label>
-                    <input id="5-17b"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="5-17b" >Linea continua</label>
+                <div class="tarjeta figura5"><h5>Figura 5:</h5><div></div>
+                    <input id="5-0"  class="form-control escalaValor-input " type="checkbox" disabled><label for="5-15" >Modificación de la forma</label>
+                    <input id="5-1"  class="form-control escalaValor-input " type="checkbox" disabled><label for="5-16" >Rotación</label>
+                    <input id="5-2"  class="form-control escalaValor-input " type="checkbox" disabled><label for="5-17a">Desintegración</label>
+                    <input id="5-3"  class="form-control escalaValor-input " type="checkbox" disabled><label for="5-17b" >Linea continua</label>
                 </div>
-                <div class="tarjeta figura6">Figura 6:<div></div>
-                    <input id="6-18a" class="form-control escalaValor-input" type="number" min="0" max="1"><label for="6-18a">Curvas por ángulos</label>
-                    <input id="6-18b" class="form-control escalaValor-input" type="number" min="0" max="1"><label for="6-18b">Lineas rectas</label>
-                    <input id="6-19"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="6-19" >Integración</label>
-                    <input id="6-20"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="6-20" >Perseveración</label>
+                <div class="tarjeta figura6"><h5>Figura 6:</h5><div></div>
+                    <input id="6-0" class="form-control escalaValor-input " type="checkbox" disabled><label for="6-18a">Curvas por ángulos</label>
+                    <input id="6-1" class="form-control escalaValor-input " type="checkbox" disabled><label for="6-18b">Lineas rectas</label>
+                    <input id="6-2"  class="form-control escalaValor-input " type="checkbox" disabled><label for="6-19" >Integración</label>
+                    <input id="6-3"  class="form-control escalaValor-input " type="checkbox" disabled><label for="6-20" >Perseveración</label>
                 </div>
-                <div class="tarjeta figura7">Figura 7:<div></div>
-                    <input id="7-21a"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="7-21a">Desproporción</label>
-                    <input id="7-21b"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="7-21b">Distorsión de la forma</label>
-                    <input id="7-22"   class="form-control escalaValor-input" type="number" min="0" max="1"><label for="7-22" >Rotación</label>
-                    <input id="7-23"   class="form-control escalaValor-input" type="number" min="0" max="1"><label for="7-23" >Integración</label>
+                <div class="tarjeta figura7"><h5>Figura 7:</h5><div></div>
+                    <input id="7-0"  class="form-control escalaValor-input " type="checkbox" disabled><label for="7-21a">Desproporción</label>
+                    <input id="7-1"  class="form-control escalaValor-input " type="checkbox" disabled><label for="7-21b">Distorsión de la forma</label>
+                    <input id="7-2"   class="form-control escalaValor-input " type="checkbox" disabled><label for="7-22" >Rotación</label>
+                    <input id="7-3"   class="form-control escalaValor-input " type="checkbox" disabled><label for="7-23" >Integración</label>
                 </div>
-                <div class="tarjeta figura8">Figura 8:<div></div>
-                    <input id="8-24"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="8-24" >Distorsión de la forma</label>
-                    <input id="8-25"  class="form-control escalaValor-input" type="number" min="0" max="1"><label for="8-25" >Rotación</label>
+                <div class="tarjeta figura8"><h5>Figura 8:</h5><div></div>
+                    <input id="8-0"  class="form-control escalaValor-input " type="checkbox" disabled><label for="8-24" >Distorsión de la forma</label>
+                    <input id="8-1"  class="form-control escalaValor-input " type="checkbox" disabled><label for="8-25" >Rotación</label>
                 </div>
             </div>
         </div>
-        <div class="iconosFooter">
-            <div class="iconoAtras">
-                <a href="listarPruebas.html"><img src="./assets/img/icons8-go-back-50.png"></a>
+        <div id="iconosFooterFinal" class="iconosFooter">
+            <div class="flechaAtras">
+                <a href="evaluarPrueba.html?img=8"><img src="./assets/img/icons8-go-back-50.png"></a>
                 <span>Regresar</span>
             </div>
-            <div class="iconoEditar-verPaciente">
+            <div class="flechaSiguiente">
                 <a href="#"><img src="./assets/img/icons8-pdf-48.png"></a>
                 <span>Imprimir</span>
             </div>
@@ -119,6 +120,8 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="./assets/js/alertas.js"></script>
 <script src="./assets/js/navbar.js"></script>
+<script src="./assets/js/crearReporte.js"></script>
 </html>

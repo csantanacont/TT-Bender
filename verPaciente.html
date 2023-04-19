@@ -24,7 +24,7 @@
             <div class="saludo-home caja">
                 <div class="saludo-nombre">
                      <span id="saludo" class="saludo">Buenas tardes,  </span>
-                     <span id="nombre-navbar"> Cristian</span>
+                     <span id="nombre-navbar"></span>
                 </div>
                 <div class="logaut-navbar">
                   <a id="logaut" style="color: black;" href="#">Cerrar sesión</a>
@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="titulo-verPaciente caja"> <h4>Ver datos del paciente</h4></div>
-        <div class="instrucciones-verPaciente caja"> <span>A continuación, se muestran los datos del paciente</span></div>
+        <div class="instrucciones-verPaciente caja"> <span>A continuación, se muestran los datos del paciente:</span></div>
         <div class="datosPaciente-verPaciente caja">
             <h4 class="tituloCaja-datosPaciente">Datos del paciente</h4>
             <span>Nombre</span><input class="inputDatoPaciente form-control" type="text" disabled id="inputNombrePaciente">
@@ -55,7 +55,7 @@
             <span>Correo electrónico</span><input class="inputDatoPaciente form-control" disabled id="inputEmailTutor">         
         </div>
         <div class="iconosFooter">
-            <div class="iconoAtras">
+            <div class="flechaAtras">
                 <a href="home.html"><img src="./assets/img/icons8-go-back-50.png"></a>
                 <span>Regresar</span>
             </div>
@@ -107,7 +107,7 @@
                       <input required type="email" class="form-control" id="emailTutor">
                       <div class="form-group">
                           <label for="telefonoTutor" class="col-form-label">Telefono:</label>
-                          <input type="text" class="form-control" size="10" id="telefonoTutor">
+                          <input type="tel" class="form-control" minlength="10" maxlength="10" id="telefonoTutor" pattern="[0-9]{3}[0-9]{3}[0-9]{4}">
                           <!-- <button class="btn btn-secondary mt-2" type="button">Agregar otro telefono</button> -->
                       </div>
                       

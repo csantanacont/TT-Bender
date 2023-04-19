@@ -81,7 +81,8 @@ body{
     margin: 0 2%;
     grid-column: 1/3;
     font-size: 20px;
-    background-color: #0da5f19b;
+    background-color: #5dc1b9;
+    /* background-color: #0da5f19b; */
     color: #fff;
 }
 
@@ -191,10 +192,11 @@ body{
     display: grid;
     /* border: solid yellow 1px; */
     grid-template-columns: auto auto auto;
-    padding: 2% 2%;
+    padding: 2% 20%;
 }
 [class*="-verPrueba caja"]{
     /* border: 1px solid red; */
+    padding: 2% 10%;
     text-align: justify;
 }
 .escalaPrueba-verPrueba{
@@ -203,7 +205,7 @@ body{
     grid-template-columns: auto auto auto;
     /* border: 1px solid black; */
     border-radius: 25px;
-    padding: 0% 10% 0% 10%;
+    padding: 0% 25% 0% 25%;
 }
 .observacionesPrueba-verPrueba{
     display: grid;
@@ -216,15 +218,16 @@ body{
     display: grid;
     justify-content:left;
     grid-template-columns: auto auto; 
-}
-.escalaValor-input{
-    margin-top: 3px;
+    column-gap: 0px;
 }
 
 /* ELEMENTOS de agregarPrueba */
 .agregarImagenes-agregarPrueba{
     display: grid;
     grid-template-columns: auto auto auto auto auto;
+    justify-content:center;
+    margin-top: 3%;
+    column-gap: 20px;
     margin-top: 3%;
     padding: 0 15%;
     
@@ -235,7 +238,10 @@ body{
     display: grid;
     grid-template-columns: 70% 30%;
     margin-top: 3rem;
-    padding: 0 20%;
+    margin-bottom: 2rem;
+    padding: 0 15%;
+    text-align: center;
+    /* border: 1px solid; */
 }
 .evaluacion-evaluarPrueba{
     display: grid;
@@ -247,9 +253,10 @@ body{
 .imagenesPrueba-evaluarPrueba{
     /* border: 1px blue solid; */
     display: grid;
-    grid-template-columns: auto auto;
-    justify-content: center;
+    grid-template-columns: 50% 50%;
     column-gap: 20px;
+    /* padding: 0% 10%; */
+    /* border: 1px black solid; */
 }
 .aspectosEvaluar-evaluarPrueba{
     /* border: 1px red solid; */
@@ -261,16 +268,27 @@ body{
     /* margin-left: 20%; */
 }
 .imgPrueba, .imgOriginal{
-    text-align: center;
-    border: solid 1px;
-    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    height: 100%;
+    height: 400px;
 }
+
+.imgPrueba{
+    overflow: hidden;
+    position: relative;
+}
+
+
+
+
 .prefooter-evaluarPrueba{
     display: grid;
     grid-template-columns: 35% 35% auto;
     padding: 0 20%; 
+    /* margin-top: 2%; */
+    /* border: 1px solid; */
 }
 .manual-evaluarPrueba{
     display: grid;
@@ -283,20 +301,23 @@ body{
     grid-template-columns: auto auto;
     grid-column: 1/3;
     text-align: center;
+    /* border: red 1px solid; */
 }
 .img-figura{
     transition: transform .2s;
-    width: 30%;
-    max-height: 20%;
+    /* width: 300px;
+    height: 300px; */
+    width: 80%;
 }
 .zoom:hover{
-    transform: scale(4);
+    transform: scale(1.2);
 }
 .box-calificadores{
     display: grid;
     grid-template-columns: auto auto;
     column-gap: 10px;
-    padding: 10% 30%;
+    padding: 40%;
+    margin-left: 25%;
     /* border: 1px solid black; */
 }
 
@@ -317,7 +338,7 @@ body{
     justify-content: center;
     height: 100%;
     cursor: pointer;
-    border: 2px solid #ddd;
+    border: 2px solid #fff;
     background-color: #fff;
     box-shadow: 0px 5px 20px 2px rgba(0,0,0,0.1);
     text-align: center;
@@ -339,7 +360,8 @@ body{
     height:18px;
     top:8px;
     left:8px;
-    background:#0da5f19b;
+    background: #5dc1b9;
+    /* background:#0da5f19b; */
     color:#fff;
     text-align:center;
     line-height:18px;
@@ -355,13 +377,13 @@ body{
     transform:scale(1);
   }
   .form-element input:checked + label .icon {
-    color:#0da5f19b;
+    color:#5dc1b9;
   }
   .form-element input:checked + label .title {
-    color:#0da5f19b;
+    color:#5dc1b9;
   }
   .form-element input:checked + label {
-    border:2px solid #0da5f19b;
+    border:2px solid #5dc1b9;
   }
 
   
@@ -381,10 +403,115 @@ body{
 /* .img-figura{
     width: 30%;
 } */
-.iconoAtras{
+.flechaAtras, .flechaSiguiente{
     margin: 10% 12% 0 0;
 }
 .iconoGuardar{
     margin: 10% 12% 0 0;
 }
 
+#muestra{
+    width: 500px;
+    height: 500px;
+}
+
+#outputMuestra{
+    width: 200px;
+    height: 200px;
+    border: solid red;
+}
+
+.preview{
+    overflow: hidden;
+    width: 200px; 
+    height: 200px;
+}
+
+
+.escalaValor-input{
+    appearance: none;
+    cursor: pointer;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+    width: 30px;
+    height: 30px;
+    border: 2px solid #888;
+    justify-self: end;
+    margin-right: 5px;
+}
+
+.escalaValor-input:checked {
+    border-color: #5dc1b9;
+    background-color: #5dc1b9;
+  }
+
+  .escalaValor-input:hover {
+    background-color: #5dc1b9;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+    border-color: #5dc1b9;
+  }
+
+  #iconosFooterFinal{
+    display: grid;
+    grid-template-columns: auto auto auto;
+  }
+
+
+  .oculto{
+    display: none;
+  }
+
+  .escalaPrueba-pdf{
+    display: grid;
+    /* margin: 0 5%; */
+    grid-template-columns: auto auto auto;
+    column-gap: 1vh;
+    /* border: 1px solid black; */
+    border-radius: 25px;
+    padding: 0% 5% 0% 5%;
+}
+
+#pdf label, #pdf p{
+    font-size: 10px;
+}
+
+
+#pdf{
+    width: 612px;
+    height: 792px;
+    margin-left: 15%;
+}
+
+
+.vpImg{
+    width: 50%;
+}
+
+#mostrarFigurasPrueba{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#verPrueba{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+#verPrueba-escala{
+    display: grid;
+    /* margin: 0 5%; */
+    grid-template-columns: auto auto auto;
+    border: 1px solid black;
+    border-radius: 25px;
+    padding: 2% 10% 2% 10%;
+}
+
+.vpFig{
+    display: grid;
+    justify-content:left;
+    grid-template-columns: auto auto; 
+    column-gap: 0px;
+}
