@@ -11,6 +11,9 @@ formLogin.addEventListener("submit", async (e)=>{
     let idEspecialista, especialista;
     if (usuario.value == '' || password.value == ''){
         alerta('Campos vacios', 'Por favor, ingresa los datos solicitados para iniciar sesión', 'info')
+    }
+    if(usuario.value == 'admin'){
+        iniciaAdministrador()
     }else{
         db.collection("especialistas")
         .where("nombreUsuario","==",usuario.value)
@@ -46,3 +49,29 @@ const login = async (idEspecialista,especialista)=>{
     }, 1500);
 }
 
+const iniciaAdministrador = () =>{
+    db.collection("administrador")
+        .where("nombreUsuario","==",usuario.value)
+        .where("contrasenia","==",password.value)
+        .get()
+        .then((querySnapshot)=>{
+            if(querySnapshot.docs.length == 0){
+                alerta('Datos incorrectos', 'Los datos que ingresaste no son correctos, vuelve a intentarlo', 'error')
+            }
+            querySnapshot.forEach(async (doc)=>{
+                if(doc.id != null){
+                    let administrador = doc.data().nombre;
+                    sessionStorage.setItem('idAdmin', doc.data().id);
+                    sessionStorage.setItem('nombreAdmin', administrador);
+                    sessionStorage.setItem('estadoSesion', true)
+                    await alerta('Bienvenido(a) '+administrador, 'Inicio de sesión exitoso', 'success');
+                    setTimeout(() =>{
+                        window.location='admin.html';
+                    }, 1500);
+                }
+            })
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
+        })
+}

@@ -515,3 +515,58 @@ body{
     grid-template-columns: auto auto; 
     column-gap: 0px;
 }
+
+
+#carouselExampleIndicators{
+    display: flex;
+    text-align: center;
+}
+
+#exampleModalLabelManual{
+    text-align: center;
+}
+
+
+.carousel-control-prev-icon {
+    background-image: url("../img/prev.png") !important;
+    width: 50px;
+    height: 50px;
+}
+   
+.carousel-control-next-icon {
+    background-image: url("../img/next.png") !important;
+    width: 50px;
+    height: 50px;
+}
+
+.tituloManual, .modal-title{
+    color: #fff;
+}
+
+.modal-header{
+    background-color: #5dc1b9;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }

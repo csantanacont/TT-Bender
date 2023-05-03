@@ -22,7 +22,7 @@ window.addEventListener('load',async (e)=>{
     }else if(now.getHours() > 18 && now.getHours() < 24){
         saludo.innerHTML = 'Buenas noches, ';
     }
-    nombre.innerHTML = sessionStorage.nombreEspecialista;
+    nombre.innerHTML = sessionStorage.nombreEspecialista || sessionStorage.nombreAdmin;
     logaut.addEventListener('click', () =>{
         sessionStorage.clear();
         setTimeout(() =>{

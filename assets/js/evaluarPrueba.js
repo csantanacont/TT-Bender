@@ -1,6 +1,7 @@
 let urls;
 let idPaciente;
 let evaluacion = JSON.parse(localStorage.evaluacion)
+let figuraActual = "";
 
 window.addEventListener('load', async () =>{
 
@@ -587,3 +588,50 @@ const cargarFlechas = (tarjeta, idPaciente) =>{
     
 }
 
+document.getElementById('manual').addEventListener('click',() =>{
+    let params = window.location.search;
+    let urlParams = new URLSearchParams(params);
+    let imagenPrueba = urlParams.get('img');
+    $("#manualModal").modal()
+
+    document.getElementById("exampleModalLabel").innerHTML = 'Escala de evaluación tarjeta '+imagenPrueba;
+
+    let indicadores = document.getElementById("carousel-indicators"),carousel = document.getElementById('carousel')
+    indicadores.innerHTML = '';
+    carousel.innerHTML = '';
+    evaluacion[`img${imagenPrueba}`].map((e,i) =>{
+        i == 0 ? indicadores.innerHTML += ` <li data-target="#carouselExampleIndicators" data-slide-to="${i}" class="active"></li>` : indicadores.innerHTML += ` <li data-target="#carouselExampleIndicators" data-slide-to="${i}"></li>`
+        i == 0 ? carousel.innerHTML += `<div class="carousel-item active">${dibujarManual(imagenPrueba,i)} <img src="./assets/img/manual/${imagenPrueba}${i}.JPG"/><br><br><br></div>` : carousel.innerHTML += `<div class="carousel-item">${dibujarManual(imagenPrueba,i)}<img src="./assets/img/manual/${imagenPrueba}${i}.JPG"/><br><br><br></div> `
+    })
+
+    console.log(indicadores)
+})
+
+const dibujarManual = (tarjeta,evaluacion) =>{  
+    let aspectosAEvaluar = {
+        imgA:['Distorsion de la forma','Desproporción','Rotación','Integración'],
+        img1:['Distorsion de la forma','Rotación','Perseveración'],
+        img2:['Rotación','Integración','Perseveración'],
+        img3:['Distorsión de la forma','Rotación','Integración', 'Linea continua'],
+        img4:['Rotación','Integración'],
+        img5:['Modificación de la forma','Rotación','Desintegración','Linea continua'],
+        img6:['Curvas por ángulos','Lineas rectas','Integración','Perseveración'],
+        img7:['Desproporción','Distorción de la forma','Rotación','Integración'],
+        img8:['Distorsión de la forma','Rotación']
+    }
+    let descripcion = {
+        imgA:['Se puntua con 1 cuando el cuadrado, el círculo, o ambos están excesivamente achatados o deformados.','Se puntua con 1 cuando existe la desproporción entre el tamaño del cuadrado y el del círculo (uno es el doble de grande que el otro)','Se puntúa con 1 cuando se aprecia la rotación de la figura o parte de esta en más de 45°.','Se puntúa con 1 cuando se aprecia la falla en el intento de unir el círculo y el cuadrado; el círculo y el vértice adyacente del cuadrado se encuentran separados o superpuestos a más de 3 mm.'],
+        img1:['Se puntúa con 1 cuando cinco o menos puntos de la figura son convertidos en círculos, cuando los puntos son agrandados o círculos parcialmente llenados.','Se puntúa con 1 cuando la figura es rotada en 45º o más.','Se puntúa con 1 cuando se realizan más de 15 puntos en una hilera.'],
+        img2:['Se puntúa con 1 cuando la rotación de la figura es en 45º o más.','Se puntúa con 1 cuando se observa la omisión de una o más hileras de círculos.','Se puntúa con uno cuando se realizan más de 14 columnas de círculos en una hilera.'],
+        img3:['Se puntúa con 1 cuando cinco o más puntos de la figura original son copiados con círculos, puntos agrandados o círculos parcialmente rellenos en lugar de puntos.','Se puntúa 1 cuando la figura copiada es rotada en 45º o más.','Se puntua con 1 cuando la figura copiada evidencia la desintegración del diseño: aumento de cada hilera sucesiva de puntos no lograda, "cabeza de flecha" irreconocible o invertida, conglomeración de puntos.', 'Se puntua con 1 cuando en la figura copiada se reemplaza por una o más líneas en lugar de hilera de punto; la línea puede sustituir a los puntos o estar agregada a estos.'],
+        img4:['Se puntúa con 1 cuando la figura copiada está rotada en 45º o más.','Se puntúa con 1 cuando se observa en la figura copiada una separación de 3 mm entre la curva y el ángulo adyacente.'],
+        img5:['Se puntúa con 1 cuando cinco o más puntos de la tarjeta original es reemplazada por círculos o puntos agrandados.','Se puntúa con 1 cuando la figura esta rotada en 45º o más; o cuando hay rotación de la extensión (es decir, cuando esta apunta hacia la derecha o la izquierda).','Se puntúa con 1 cuando la figura copiada evidencia la desintegración del diseño, conglomeración de puntos, línea recta o círculo de puntos en lugar de arco.','Se puntúa con 1 cuando en la figura copiada por el niño o niña, es reemplazada por línea continua en lugar de una hilera de puntos ya sea en el arco y/o la extensión.'],
+        img6:['Se puntúa con 1 cuando tres o más curvas son sustituidas por ángulos (como los dientes de un serrucho).','Se puntúa con 1 cuando una o ambas líneas curvadas de la tarjeta original son sustituidas por líneas rectas.','Se puntúa con 1 cuando las dos líneas no se cruzan o se cruzan en el extremo de una o de ambas líneas, dos líneas onduladas entrelazadas.','Se puntúa con 1 cuando en la figura copiada, se muestran seis o más curvas sinusoidales completas en cualquiera de las dos direcciones.'],
+        img7:['Se puntúa con 1 cuando en la figura copiada existe desproporción entre el tamaño de los 2 hexágonos (para puntuar con uno, un hexágono debe ser al menos el doble de grande que el otro). ','Se puntúa con 1 cuando los hexágonos copiados están excesivamente deformados o presente adición u omisión de ángulos.','Se puntúa con 1 cuando la figura copiada presenta rotación en 45º o más.','Se puntúa con 1 cuando los hexágonos copiados no se superponen o lo hacen excesivamente. '],
+        img8:['Se puntúa con 1 cuando el hexágono o el rombo copiado se presentan excesivamente deformados o cuando se agregan u omiten los ángulos de la figura original.','Se puntúa con 1 cuando la figura copiada, esta rotada en 45º o más']
+    }
+    let manual = ""
+    manual = `<h4 style="text-align:center;">${aspectosAEvaluar[`img`+tarjeta][evaluacion]}</h4><br><p>${descripcion[`img`+tarjeta][evaluacion]}</p>`
+    return manual
+
+}

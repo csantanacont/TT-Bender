@@ -40,10 +40,10 @@ const muestraPruebas = async (id) =>{
                         <td>${doc.data().fechaPrueba}</td>
                         <td>
                             <div class="acciones">
-                                <a href=verPrueba.html?id=${doc.id}><img src="./assets/img/icons8-eye-50.png" alt="ver" class="icon"></a>
-                                <a href="verImgsPrueba.html?id=${data.idImagenesPruebas}&p=${id}"><img src="./assets/img/icons8-images-64.png" alt="imagenes" class="icon"></a>
-                                <a href="#" onclick=eliminarRegistro("${doc.id}")><img src="./assets/img/icons8-trash-can-60.png" alt="borrar" class="icon"></a>
-                                <a onclick=generarPDF("${doc.id}")><img src="./assets/img/icons8-pdf-48.png" alt="lista" class="icon"></a>
+                                <a title="Ver datos de la prueba" href=verPrueba.html?id=${doc.id}><img src="./assets/img/icons8-eye-50.png" alt="ver" class="icon"></a>
+                                <a title="Ver imagenes de la prueba" href="verImgsPrueba.html?id=${data.idImagenesPruebas}&p=${id}"><img src="./assets/img/icons8-images-64.png" alt="imagenes" class="icon"></a>
+                                <a title="Eliminar datos de la prueba" href="#" onclick=eliminarRegistro("${doc.id}")><img src="./assets/img/icons8-trash-can-60.png" alt="borrar" class="icon"></a>
+                                <a title="Generar PDF de la prueba" onclick=generarPDF("${doc.id}")><img src="./assets/img/icons8-pdf-48.png" alt="lista" class="icon"></a>
                             </div>
                         </td>
                     </tr>

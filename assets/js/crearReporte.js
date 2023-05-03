@@ -17,7 +17,7 @@ window.addEventListener('load', async () =>{
 
     imgs.map(i =>{
         setValoresAspectos(i);
-        setValoresAspectosPDF(i);
+        // setValoresAspectosPDF(i);
     })
     
   
@@ -95,10 +95,6 @@ const cargarFlechas = (id) => {
             <div class="flechaAtras">
             <a href="evaluarPrueba.html?img=8&id=${id}"><img src="./assets/img/icons8-go-back-50.png"></a>
             <span>Regresar</span>
-            </div>
-            <div class="imprimir flechaSiguiente">
-            <a href="#"><img src="./assets/img/icons8-pdf-48.png"></a>
-            <span>Imprimir</span>
             </div>
             <div class="guardar flechaSiguiente">
             <a href="#"><img src="./assets/img/icons8-save-50.png"></a>
