@@ -33,6 +33,7 @@ body{
     /* border: solid black 4px; */
     width: 100% !important;
     height: 100%;
+    /* border: #888 solid 1px; */
 }
 
 .grid-verPaciente{
@@ -48,9 +49,15 @@ body{
     column-gap: 2rem;
     padding: 0 1rem ;
 }
+
 .caja{
+    display: grid;
     /* border: solid red 4px; */
     text-align: center;
+}
+
+.logo-index, .logo-login{
+    padding: 0 45%;
 }
 .icon-navbar{
     height: 50px;
@@ -103,25 +110,73 @@ body{
 }
 .barraBusqueda-home{
     display: grid;
-    grid-template-columns: 90% auto;
+    grid-template-columns: 100%;
     grid-column: 1/3;
     padding: 0 30%;
 }
+#barraBusqueda::placeholder {
+    text-align: center;
+
+  }
 .agregarRegistro-home{
     display: grid;
-    justify-content: flex-start;
+    /* width: 100%; */
+    grid-template-columns: auto auto;
+    justify-content: space-between;
     grid-column: 1/3;
-    margin: 30px 20%;
+    padding: 0 22%;
+    margin: 30px 0 5px 0;
     font-size: 20px;
 }
 .tablaRegistros-home{
     grid-column: 1/3;
     margin: 0 20%;
+    max-height: 300px;
+    overflow-y: auto;
+}
+.tablaRegistros-home::-webkit-scrollbar {
+    width: 5px;     /* Tamaño del scroll en vertical */
+}
+.tablaRegistros-home::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 28px;
 }
 
+/* Cambiamos el fondo y agregamos una sombra cuando esté en hover */
+.tablaRegistros-home::-webkit-scrollbar-thumb:hover {
+    background: #b3b3b3;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Cambiamos el fondo cuando esté en active */
+.tablaRegistros-home::-webkit-scrollbar-thumb:active {
+    background-color: #999999;
+}
+
+.tablaRegistros-home::-webkit-scrollbar-track {
+    background: #e1e1e1;
+    border-radius: 10px;
+}
+
+/* Cambiamos el fondo cuando esté en active o hover */
+.tablaRegistros-home::-webkit-scrollbar-track:hover,
+.tablaRegistros-home::-webkit-scrollbar-track:active {
+  background: #d4d4d4;
+}
+
+
+#tablaRegistros{
+    width: 100%;
+    border-collapse: collapse;
+}
+thead th {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+}
 /* Elementos de HOME - Tabla de registros */
 .icon{
-    height: 35px;
+    height: 30px;
 }
 .acciones{
     display: flex;
@@ -191,8 +246,15 @@ body{
 .datosPrueba-verPrueba{
     display: grid;
     /* border: solid yellow 1px; */
-    grid-template-columns: auto auto auto;
-    padding: 2% 20%;
+    grid-template-columns: 33% 33% 33%;
+    /* padding: 2% 20%; */
+}
+
+.datosPrueba-paginaPDF{
+    display: grid;
+    /* border: solid yellow 1px; */
+    grid-template-columns: 33% 33% 33%;
+    /* padding: 2% 20%; */
 }
 [class*="-verPrueba caja"]{
     /* border: 1px solid red; */
@@ -212,13 +274,15 @@ body{
     grid-template: auto auto;
     /* border: 1px blue solid; */
     text-align: left;
-    padding: 0 2%;
+    padding: 0 10%;
 }
 .tarjeta{
     display: grid;
     justify-content:left;
     grid-template-columns: auto auto; 
-    column-gap: 0px;
+    column-gap: 10px;
+    row-gap: 8px;
+    margin-bottom: 30%;
 }
 
 /* ELEMENTOS de agregarPrueba */
@@ -271,21 +335,22 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 400px;
+    width: 400px;
+    max-height: 400px;
 }
 
-.imgPrueba{
-    overflow: hidden;
-    position: relative;
+#img-Prueba{
+    object-fit:contain;
+    width:250px;
+    height:250px;
+    /* border: solid 1px red; */
 }
-
 
 
 
 .prefooter-evaluarPrueba{
     display: grid;
-    grid-template-columns: 35% 35% auto;
+    grid-template-columns: 40% 40% 20%;
     padding: 0 20%; 
     /* margin-top: 2%; */
     /* border: 1px solid; */
@@ -303,6 +368,22 @@ body{
     text-align: center;
     /* border: red 1px solid; */
 }
+    /* div{
+        border: solid 1px red
+    } */
+#subTituloPrueba{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    column-gap: 10px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#iconosCropper{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
 .img-figura{
     transition: transform .2s;
     /* width: 300px;
@@ -411,23 +492,46 @@ body{
 }
 
 #muestra{
+    /* border: #555 1px solid; */
+    margin-top: 30px;
     width: 500px;
     height: 500px;
+    object-fit:scale-down;
 }
 
-#outputMuestra{
-    width: 200px;
-    height: 200px;
-    border: solid red;
+/* MODAL PARA RECORTAR LAS TARJETAS */
+
+.cropperimg{
+    display: grid;
+    grid-template-columns: 60% 40%;
+    column-gap: 20px;
+    justify-content: center;
 }
 
-.preview{
-    overflow: hidden;
-    width: 200px; 
-    height: 200px;
+.img-cropperedH{
+    height: 70%;
+    width: 100%;
+    border: solid 1px red;
+}
+
+.img-cropperedV{
+    height: 50%;
+    width: 100%;
+    border: solid 1px red;
+}
+#img-cropper{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;  
+}
+
+#div-imagenOriginal,#div-imagenRecortada{
+    border: solid 1px black;
 }
 
 
+
+/* ASPECTOS A EVALUAR */
 .escalaValor-input{
     appearance: none;
     cursor: pointer;
@@ -450,6 +554,8 @@ body{
     background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
     border-color: #5dc1b9;
   }
+
+  /* ---------------------------------------------------------- */
 
   #iconosFooterFinal{
     display: grid;
@@ -476,11 +582,13 @@ body{
 }
 
 
-#pdf{
+#pdf, #pdf2{
     width: 612px;
     height: 792px;
-    margin-left: 15%;
+    /* margin-left: 15%; */
 }
+
+
 
 
 .vpImg{
@@ -570,3 +678,283 @@ body{
   .tooltip:hover .tooltiptext {
     visibility: visible;
   }
+
+
+  /* ESTILOS MODAL CROPPER */
+  .modal2{
+    background-color: rgba(0, 0, 0, 0.247);
+    backdrop-filter: blur(0px);
+    position: fixed;
+    z-index: 2;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 150ms ease-in-out;
+    overflow: auto;
+    padding: 20px;
+}
+.modal-content2{
+    width: 1200px;
+    margin: auto;
+    background-color: rgb(250, 250, 250);
+    border-radius: 10px;
+    overflow: hidden;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: 400ms 300ms all ease;
+}
+.modal-content2 .modal-header2{
+    width: 100%;
+    padding: 20px 10px;
+    text-align: center;
+    background-color: rgb(249,249,249);
+    box-shadow: 0px -2px 7px 1px rgba(0, 0, 0, 0.281);
+    font-size: 18px;
+}
+.modal-content2 .modal-body2{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 18px 10px;
+}
+.modal-body2 .content-imagen-cropper2{
+    width: 80%;
+    height: 400px;
+    padding: 5px;
+    outline: 1px solid var(--thir-color);
+}
+.content-imagen-cropper2 .img-cropper{
+    width: 100%;
+}
+.modal-body2 .content-imagen-sample2{
+    max-height: 300px;
+    max-width: 300px;
+    outline: 1px solid var(--thir-color);
+    /* border-radius: 100%; */
+    overflow: hidden;
+}
+.modal-body2 .content-imagen-sample2 .img-sample{
+    height: 300px;
+    width: 300px;
+}
+.modal-content2 .modal-footer2{
+    width: 100%;
+    padding: 10px 10px;
+    text-align: center;
+    background-color: rgb(249,249,249);
+    box-shadow: 0px 2px 7px 1px rgba(0, 0, 0, 0.281);
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 15px;
+}
+.modal-footer2 .btn{
+    border: none;
+    padding: 12px 70px;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    color: #fff;
+    transition: background-color 300ms ease;
+}
+
+/* ==== Modal estilos active ==== */
+
+.modal2.active{
+    opacity: 1;
+    backdrop-filter: blur(3px);
+    visibility: visible;
+}
+.modal-content2.active{
+    transform: scale(1);
+    opacity: 1;
+}
+.modal2.remove{
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    visibility: hidden;
+    transition: 150ms 150ms all ease-in-out;
+}
+.modal-content2.remove{
+    transform: scale(0.9);
+    opacity: 0;
+    transition: 150ms all ease;
+}
+
+.icon:hover{
+    cursor:pointer;
+}
+
+
+/* IMAGENES GENERAR REPORTE */
+
+.hiddenimg {
+    display: none;
+}
+
+.hiddentxt:hover ~ .hiddenimg {
+    display: block !important;
+    position: absolute;
+    z-index: 2;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    margin: 2% auto 0 auto;
+    /* margin-left: 20%; */
+  }
+
+  .hiddentxt {
+    font-weight: bold;
+    color: #316863;
+    z-index:3;
+  }
+
+  .iconoReporte,.iconoReporte2{
+    margin-left: 15px;
+  }
+
+
+/* div{
+    border: red 1px solid
+} */
+#verImagenPruebaDiv{
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    padding:0 30% ;
+    /* margin-left: 1%; */
+}
+
+
+.verTarjeta{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.imagenVerTarjeta{
+    width: 400px;
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imgAjuste{
+    object-fit:scale-down;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* REPORTE PDF */
+.prueba-generarPDF{
+    display: grid;
+    /* border: solid black 1px; */
+    grid-template-columns: auto;
+}
+.datosPrueba-generarPDF{
+    display: grid;
+    /* border: solid yellow 1px; */
+    grid-template-columns: 33% 33% 33%;
+    /* padding: 2% 20%; */
+}
+
+
+[class*="-generarPDF caja"]{
+    /* border: 1px solid blue; */
+    /* padding: 2% 10%; */
+    text-align: justify;
+}
+.escalaPrueba-generarPDF{
+    display: grid;
+    /* margin: 0 5%; */
+    grid-template-columns: auto auto auto;
+    /* border: 1px solid black; */
+    border-radius: 25px;
+    margin-bottom: 10%;
+    /* padding: 0 0 10px 10%; */
+}
+.observacionesPrueba-generarPDF{
+    display: grid;
+    grid-template: auto auto;
+    /* border: 1px blue solid; */
+    text-align: left;
+    /* padding: 0 10%; */
+}
+
+.tarjeta-pdf span{
+    grid-column-start: 1;
+    grid-column-start: 2;
+    margin-bottom: 3px;
+}
+
+.tarjeta-pdf{
+    display: grid;
+    justify-content:start;
+    grid-template-columns: auto auto; 
+    align-items:self-start;
+    border: dotted 1px black;
+    /* column-gap: 10px; */
+    /* margin-bottom: 30%; */
+}
+#pdf2{
+    display: grid;
+    grid-template-columns: auto;
+    justify-content: start;
+}
+#pdf2 img{
+    object-fit:fill ;
+    width: 100%;
+    height: 80%;
+    margin: auto;
+}
+
+
+
+
+.tam {
+    height: 250px;
+    width: 250px;
+    border: 1px solid red;
+    display: none;
+}
+
+/* #smallcanvas{
+    display: none;
+} */
+
+.text{
+    font-size: 4px;
+    
+}
+
+#mensajeBusqueda{
+    grid-column: 1/3;
+    margin: 5% 20%;
+    text-align: center;
+    font-size: larger;
+    font-style: oblique;
+}
+
+
+#datosTabla{
+    max-height: 100px;
+    overflow: scroll;
+}
+
+
+[id^="confirmaCambios"]{   
+    display: flex;
+    /* border: red 1px solid; */
+    margin-left: 10px;
+}
+

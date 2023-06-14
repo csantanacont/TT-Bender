@@ -1,6 +1,6 @@
 const formAgregarPaciente = document.getElementById('registrarPaciente');
 const agregarReg_icon = document.getElementById("agregarRegistro-icon");
-
+let dataPacientes =[], idPacientes = []
 
 window.addEventListener('load',()=>{
     localStorage.removeItem("imgB64");
@@ -13,6 +13,8 @@ window.addEventListener('load',()=>{
     .get()
     .then((querySnapshot) =>{
         querySnapshot.forEach(doc =>{
+            dataPacientes.push(doc.data())
+            idPacientes.push(doc.id)
             // console.log(doc.data())
             datosTabla.innerHTML += `
             <tr>
@@ -66,15 +68,21 @@ let borrarRegistro = async (id) =>{
     })
     
 }
+
+
 agregarReg_icon.addEventListener('click', () =>{
     let listaEspecialistas = document.getElementById('psicologoCabeceraPaciente');
     listaEspecialistas.innerHTML = '';
+    generarCURP()
     db.collection('especialistas')
     .get()
     .then((querySnapshot) =>{
         querySnapshot.forEach((doc) =>{
             let nombreEspecialista = doc.data().nombre +" "+doc.data().apellidoPaterno +" "+ doc.data().apellidoMaterno;
-            listaEspecialistas.innerHTML += `<option value="${doc.id}">${nombreEspecialista}</option>`
+            if(doc.id == sessionStorage.idEspecialista)
+                listaEspecialistas.innerHTML += `<option selected value="${doc.id}">${nombreEspecialista}</option>`
+            else
+                listaEspecialistas.innerHTML += `<option value="${doc.id}">${nombreEspecialista}</option>`
         })
     })
 })
@@ -105,37 +113,58 @@ formAgregarPaciente.addEventListener('submit',async (e) =>{
             apellidoMaterno: capitalizarPalabras(document.getElementById("aMaternoTutor").value),
             email: document.getElementById("emailTutor").value.toLowerCase(),
             parentezco: document.getElementById("parentezcoTutor").value
-        }
-        await db.collection("tutores").add(dataTutor)
-        .then(docRef =>{
-            // console.log(docRef.id);
-            idTutorPaciente = docRef.id;
-        });
-        let dataPaciente = {
-            nombre: capitalizarPalabras(document.getElementById("nombrePaciente").value),
-            apellidoPaterno: capitalizarPalabras(document.getElementById("aPaternoPaciente").value),
-            apellidoMaterno: capitalizarPalabras(document.getElementById("aMaternoPaciente").value),
-            fechaNacimiento: document.getElementById("fechaNacimientoPaciente").value,
-            CURP:document.getElementById("curpPaciente").value.toUpperCase(),
-            idTutor: idTutorPaciente,
-            idEspecialistaCabecera: document.getElementById("psicologoCabeceraPaciente").value,
-            fechaRegistro: fechaActualFormateada
-        };
+            }
+            await db.collection("tutores").add(dataTutor)
+            .then(docRef =>{
+                // console.log(docRef.id);
+                idTutorPaciente = docRef.id;
+            });
+
+            const fechaActual = new Date(), fechaNacimiento = new Date(document.getElementById("fechaNacimientoPaciente").value);
+            const diferenciaMs = fechaActual - fechaNacimiento;
+
+            // Convierte la diferencia de milisegundos a años
+            const edad = Math.floor(diferenciaMs / 1000 / 60 / 60 / 24 / 365);
+            const edadDiferencia = edad - (diferenciaMs / 1000 / 60 / 60 / 24 / 365);
+            const meses = Math.floor(edadDiferencia * 12)
+            
+            console.log(edad)
+            if(edad > 12 || edad < 3){
+                await alerta('Error al registrar', 'La edad del paciente debe ser de entre 4 y 11 años. \n La edad ingresada es de '+edad+' años', 'warning')
+                return 
+            }
+
+            if(document.getElementById("curpPaciente").value.length != 18){
+                await alerta('Error al registrar', 'El CURP ingresado no es válido', 'info')
+                return 
+            }
+
+
+            let dataPaciente = {
+                nombre: capitalizarPalabras(document.getElementById("nombrePaciente").value),
+                apellidoPaterno: capitalizarPalabras(document.getElementById("aPaternoPaciente").value),
+                apellidoMaterno: capitalizarPalabras(document.getElementById("aMaternoPaciente").value),
+                fechaNacimiento: document.getElementById("fechaNacimientoPaciente").value,
+                CURP:document.getElementById("curpPaciente").value.toUpperCase(),
+                idTutor: idTutorPaciente,
+                idEspecialistaCabecera: document.getElementById("psicologoCabeceraPaciente").value,
+                fechaRegistro: fechaActualFormateada
+            };
 
         // console.log(dataPaciente)
-        await db.collection("pacientes").add(dataPaciente);
+            await db.collection("pacientes").add(dataPaciente);
 
-        let dataTelefonoTutor = {
-            idTutor: idTutorPaciente,
-            telefono: document.getElementById("telefonoTutor").value
-        }
-        await db.collection("telefonos").add(dataTelefonoTutor);
-        
-        await alerta('Registro exitoso', 'El paciente se ha registrado correctamente', 'success');
+            let dataTelefonoTutor = {
+                idTutor: idTutorPaciente,
+                telefono: document.getElementById("telefonoTutor").value
+            }
+            await db.collection("telefonos").add(dataTelefonoTutor);
+            
+            await alerta('Registro exitoso', 'El paciente se ha registrado correctamente', 'success');
 
-        setTimeout(() =>{
-            location.reload();
-        }, 1000);
+            setTimeout(() =>{
+                location.reload();
+            }, 1000);
         }else{
             await alerta('Error al registrar', 'El CURP que ingresaste ya se encuentra registrado', 'warning')
         }
@@ -143,6 +172,82 @@ formAgregarPaciente.addEventListener('submit',async (e) =>{
     
     
 })
+
+const generarCURP = () =>{
+    let nombre = document.getElementById('nombrePaciente'), aP = document.getElementById('aPaternoPaciente'), aM = document.getElementById('aMaternoPaciente'),
+    fechaNacimiento = document.getElementById('fechaNacimientoPaciente'), curpPaciente = document.getElementById('curpPaciente')
+
+    nombre.addEventListener('change', (e) =>{
+        if(nombre.value != '' && aP.value != '' && aM.value != '' && fechaNacimiento.value != ''){
+            curpPaciente.value = obtenerCURP(aP.value+' '+aM.value+' '+nombre.value, fechaNacimiento.value)
+        }
+        else{
+            curpPaciente.value = ''
+        }
+    })
+    aP.addEventListener('change', (e) =>{
+        if(nombre.value != '' && aP.value != '' && aM.value != '' && fechaNacimiento.value != ''){
+            curpPaciente.value = obtenerCURP(aP.value+' '+aM.value+' '+nombre.value, fechaNacimiento.value)
+        } else{
+            curpPaciente.value = ''
+        }
+    })
+    aM.addEventListener('change', (e) =>{
+        if(nombre.value != '' && aP.value != '' && aM.value != '' && fechaNacimiento.value != ''){
+            curpPaciente.value = obtenerCURP(aP.value+' '+aM.value+' '+nombre.value, fechaNacimiento.value)
+        } else{
+            curpPaciente.value = ''
+        }
+    })
+
+    fechaNacimiento.addEventListener('change', (e) =>{
+        if(nombre.value != '' && aP.value != '' && aM.value != '' && fechaNacimiento.value != ''){
+            curpPaciente.value = obtenerCURP(aP.value+' '+aM.value+' '+nombre.value, fechaNacimiento.value)
+        } else{
+            curpPaciente.value = ''
+        }
+    })
+}
+const obtenerCURP = (nombre, fechaNacimiento) => {
+    // Obtener primer letra del primer apellido
+    const primerApellido = nombre.split(" ")[0].toUpperCase().charAt(0);
+    console.log(fechaNacimiento)
+    // Obtener primera vocal interna del primer apellido
+    const regexVocal = /[AEIOU]/i;
+    let primeraVocal = "";
+    for (let i = 1; i < nombre.length; i++) {
+      if (regexVocal.test(nombre[i])) {
+        primeraVocal = nombre[i].toUpperCase();
+        break;
+      }
+    }
+  
+    // Obtener primer letra del segundo apellido
+    const segundoApellido = nombre.split(" ")[1].toUpperCase().charAt(0);
+  
+    // Obtener primera letra del primer nombre
+    const primerNombre = nombre.split(" ")[2].toUpperCase().charAt(0);
+  
+    // Formatear fecha de nacimiento (DD/MM/AAAA)
+    const dia = fechaNacimiento.split("-")[2]
+    const mes = fechaNacimiento.split("-")[1]
+    const anio = fechaNacimiento.split("-")[0].substr(-2)
+  
+  
+    // Generar CURP
+    const curp =
+      primerApellido +
+      primeraVocal +
+      segundoApellido +
+      primerNombre +
+      anio +
+      mes +
+      dia
+      
+    
+    return curp;
+  }
+  
 
 
 let editarRegistro = async (idPaciente) =>{
@@ -183,7 +288,11 @@ let editarRegistro = async (idPaciente) =>{
             especialistasLista.innerHTML = '';
             querySnapshot.forEach(doc =>{
                 especialista = doc.data();
-                especialistasLista.innerHTML+=`<option value=${doc.id}>${especialista.nombre+" "+especialista.apellidoPaterno+" "+especialista.apellidoMaterno}</option>`
+                if(sessionStorage.idEspecialista == doc.id){
+                    especialistasLista.innerHTML+=`<option selected value=${doc.id}>${especialista.nombre+" "+especialista.apellidoPaterno+" "+especialista.apellidoMaterno}</option>`
+                }else{
+                    especialistasLista.innerHTML+=`<option value=${doc.id}>${especialista.nombre+" "+especialista.apellidoPaterno+" "+especialista.apellidoMaterno}</option>`
+                }
                 idEspecialista = doc.id;
             })
         })
@@ -238,6 +347,36 @@ let editarRegistro = async (idPaciente) =>{
                 idTutor: idTutor,
                 idEspecialistaCabecera: document.getElementById("psicologoCabeceraPacienteR").value,
             };
+
+
+            const fechaActual = new Date(), fechaNacimiento = new Date(document.getElementById("fechaNacimientoPaciente").value);
+            const diferenciaMs = fechaActual - fechaNacimiento;
+
+            // Convierte la diferencia de milisegundos a años
+            const edad = Math.floor(diferenciaMs / 1000 / 60 / 60 / 24 / 365);
+            const edadDiferencia = edad - (diferenciaMs / 1000 / 60 / 60 / 24 / 365);
+            const meses = Math.floor(edadDiferencia * 12)
+            
+            console.log(edad)
+            if(edad > 12 || edad < 3){
+                await alerta('Error al registrar', 'La edad del paciente debe ser de entre 4 y 11 años. \n La edad ingresada es de '+edad+' años', 'warning')
+                return 
+            }
+
+            if(document.getElementById("curpPacienteR").value.length != 18){
+                await alerta('Error al registrar', 'El CURP ingresado no es válido', 'info')
+                return 
+            }
+            let registroRepetido =false
+            dataPacientes.map(async (p,idx) =>{
+                if(document.getElementById("curpPacienteR").value.toUpperCase() == p.CURP && idPacientes[idx] != idPaciente){
+                    registroRepetido = true
+                }
+            })
+            if(registroRepetido){
+                await alerta('Error al registrar', 'El CURP ingresado ya pertenece a otro registro', 'warning')
+                return
+            }
         
             // console.log(dataPaciente)
             await db.collection("pacientes").doc(idPaciente).update(dataPaciente)
@@ -274,49 +413,74 @@ let editarRegistro = async (idPaciente) =>{
     
 }
 
-document.getElementById('btn-busqueda').addEventListener('click', ()=>{
-    let barraBusqueda = document.getElementById('barra-busqueda');
-    let busqueda = barraBusqueda.value.split(' ');
-    let datosTabla = document.getElementById("datosTabla");
-    db.collection("pacientes")
-    .where("nombre","==",busqueda[0])
-    .where("apellidoPaterno","==",busqueda[1])
-    .get()
-    .then(async (querySnapshot) =>{
-        if(querySnapshot.docs.length == 0){
-            datosTabla.innerHTML = ``;
-            alerta('Paciente no encontrado', 'No existen resultados que coincidan con la busqueda, vuelve a intentarlo', 'info')
-        }else{
-            await alerta('Se encontraron '+ querySnapshot.docs.length +' resultado(s)', 'Los siguientes resultados coincidan con la busqueda', 'success')
-            datosTabla.innerHTML = ``;
-            querySnapshot.forEach(doc =>{
-                datosTabla.innerHTML += `
-                <tr>
-                <td>${doc.data().nombre}</td>
-                <td>${doc.data().apellidoPaterno}</td>
-                <td>${doc.data().apellidoMaterno}</td>
-                <td>${doc.data().fechaRegistro}</td>
-                <td>
-                    <div class="acciones">
-                        <a href="verPaciente.html?id=${doc.id}"><img src="./assets/img/icons8-eye-50.png" alt="ver" class="icon"></a>
-                        <a onclick="editarRegistro('${doc.id}');"><img src="./assets/img/icons8-pencil-48.png" alt="editar" class="icon"></a>
-                        <a href="#" onclick="eliminarRegistro('${doc.id}')"><img src="./assets/img/icons8-trash-can-60.png" alt="borrar" class="icon"></a>
-                        <a href="listarPruebas.html?id=${doc.id}"><img src="./assets/img/icons8-bulleted-list-50.png" alt="lista" class="icon"></a>
-                    </div>
-                </td>
-            </tr>`
-            })
-        }
-        
-    })
-})
-
-document.getElementById('barra-busqueda').addEventListener("change", (e) =>{
+document.getElementById('barra-busqueda').addEventListener("input", (e) =>{
     if(e.target.value == ''){
-        location.reload();
+        let datosTabla = document.getElementById("datosTabla");
+        let mensaje = document.getElementById("mensajeBusqueda");
+        datosTabla.innerHTML = ``;
+        mensaje.innerHTML = ``;
+        dataPacientes.map((d,i) =>{
+            actualizarTabla(i)
+        })
+    }else{
+        let res = buscarPaciente(dataPacientes, e.target.value)
     }
 })
 
+const buscarPaciente = (data, valor) =>{
+    let datosTabla = document.getElementById("datosTabla");
+    let mensaje = document.getElementById("mensajeBusqueda");
+    datosTabla.innerHTML = ``;
+    mensaje.innerHTML = `No se encuentran registros que coincidan con la busqueda`;
+    
+    registrosAConsiderar = []
+    registro = valor.split(' ')
+
+    data.map((paciente, idx) =>{
+        nombreCompleto = paciente.nombre + paciente.apellidoPaterno + paciente.apellidoMaterno
+        for(let i=0; i<registro.length;i++){
+            if(registro[i] != '')
+            if(nombreCompleto.includes(registro[i]) || paciente.CURP.includes(registro[i])){
+                if(!registrosAConsiderar.includes(idx)){
+                    registrosAConsiderar.push(idx) 
+                }             
+            }
+        }
+    })
+    if(registrosAConsiderar.length == 0){
+            datosTabla.innerHTML = ``;
+            mensaje.innerHTML = `No se encuentran registros que coincidan con la busqueda`;
+    }else{
+            datosTabla.innerHTML = ``;
+            mensaje.innerHTML = ``;
+    }   
+    registrosAConsiderar.map(i =>{
+        actualizarTabla(i)
+    })
+    
+    
+}
+
+const actualizarTabla = (index) =>{
+    let datosTabla = document.getElementById("datosTabla");
+    // datosTabla.innerHTML = ``;
+    datosTabla.innerHTML += `
+    <tr>
+    <td>${dataPacientes[index].nombre}</td>
+    <td>${dataPacientes[index].apellidoPaterno}</td>
+    <td>${dataPacientes[index].apellidoMaterno}</td>
+    <td>${dataPacientes[index].fechaRegistro}</td>
+    <td>
+        <div class="acciones">
+            <a href="verPaciente.html?id=${idPacientes[index]}"><img src="./assets/img/icons8-eye-50.png" alt="ver" class="icon"></a>
+            <a onclick="editarRegistro('${idPacientes[index]}');"><img src="./assets/img/icons8-pencil-48.png" alt="editar" class="icon"></a>
+            <a href="#" onclick="eliminarRegistro('${idPacientes[index]}')"><img src="./assets/img/icons8-trash-can-60.png" alt="borrar" class="icon"></a>
+            <a href="listarPruebas.html?id=${idPacientes[index]}"><img src="./assets/img/icons8-bulleted-list-50.png" alt="lista" class="icon"></a>
+        </div>
+    </td>
+</tr>`
+
+}
 const capitalizarPalabras = (val) => {  
     return val.toLowerCase()
               .trim()

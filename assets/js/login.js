@@ -10,7 +10,8 @@ formLogin.addEventListener("submit", async (e)=>{
     e.preventDefault();
     let idEspecialista, especialista;
     if (usuario.value == '' || password.value == ''){
-        alerta('Campos vacios', 'Por favor, ingresa los datos solicitados para iniciar sesión', 'info')
+        alerta('Existen campos vacios', 'Por favor, ingresa los datos solicitados para iniciar sesión', 'info')
+        return
     }
     if(usuario.value == 'admin'){
         iniciaAdministrador()

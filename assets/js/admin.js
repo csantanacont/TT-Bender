@@ -1,6 +1,6 @@
 const formAgregarEspecialista = document.getElementById('registrarEspecialista');
 const agregarReg_icon = document.getElementById("agregarRegistro-icon");
-
+const dataEspecialistas = [], idEspecialistas = [];
 
 window.addEventListener('load',()=>{
     localStorage.removeItem("imgB64");
@@ -13,6 +13,8 @@ window.addEventListener('load',()=>{
     .get()
     .then((querySnapshot) =>{
         querySnapshot.forEach(doc =>{
+            dataEspecialistas.push(doc.data());
+            idEspecialistas.push(doc.id)
             // console.log(doc.data())
             datosTabla.innerHTML += `
             <tr>
@@ -24,8 +26,8 @@ window.addEventListener('load',()=>{
                 <div class="acciones">
                     <a title="Ver datos del Especialista" onclick="verRegistro('${doc.id}')"><img src="./assets/img/icons8-eye-50.png" alt="ver" class="icon"></a>
                     <a title="Editar datos del Especialista" onclick="editarRegistro('${doc.id}');"><img src="./assets/img/icons8-pencil-48.png" alt="editar" class="icon"></a>
-                    <a title="Eliminar datos del Especialista" href="#" onclick="eliminarRegistro('${doc.id}')"><img src="./assets/img/icons8-trash-can-60.png" alt="borrar" class="icon"></a>
-                    <a title="Consultar pruebas del Especialista" href="listarPruebas.html?id=${doc.id}"><img src="./assets/img/icons8-bulleted-list-50.png" alt="lista" class="icon"></a>
+                    <a title="Eliminar datos del Especialista" href="#" onclick="eliminarRegistroEspecialista('${doc.id}')"><img src="./assets/img/icons8-trash-can-60.png" alt="borrar" class="icon"></a>
+                    <a title="Consultar pacientes del Especialista" href="listarPacientes.html?id=${doc.id}"><img src="./assets/img/icons8-bulleted-list-50.png" alt="lista" class="icon"></a>
                 </div>
             </td>
         </tr>`
@@ -33,63 +35,42 @@ window.addEventListener('load',()=>{
     })
 })
 
-let borrarRegistro = async (id) =>{
-    let dataEsp =[];
-    
-    db.collection("especialistas")
+let borrarRegistroEspecialista = async (idSustituto, idABorrar) =>{
+
+    pacientesAModificar = []
+    await db.collection("pacientes")
+    .where("idEspecialistaCabecera", '==',idABorrar)
     .get()
     .then((querySnapshot) =>{
         querySnapshot.forEach(doc =>{
-            let e = doc.data()
-            e["id"] = doc.id
-            dataEsp.push(e)
+            pacientesAModificar.push(doc.id)
+        })
+    });
+
+    pacientesAModificar.map(async (id) => {
+        await db.collection("pacientes").doc(id).update({idEspecialistaCabecera:idSustituto})
+        .then(() =>{
+            console.log("Se reasignaron los pacientes");
+        });
+    })
+    await db.collection("especialistas").doc(idABorrar).delete()
+    .then(() =>{
+        Swal.fire(
+            'Eliminado',
+            'El especialista ha sido eliminado',
+            'success'
+        ).then(()=>{
+            location.reload();
         })
     })
-
-    for(let i=0;i<dataEsp.length;i++){
-        console.log(dataEsp)
-    }
-    
-   
-    // Swal.fire({
-    //     title: 'Select Outage Tier',
-    //     input: 'select',
-    //     inputOptions: {
-    //       '1': 'Tier 1',
-    //       '2': 'Tier 2',
-    //       '3': 'Tier 3'
-    //     },
-    //     inputPlaceholder: 'required',
-    //     showCancelButton: true,
-    //     inputValidator: function (value) {
-    //       return new Promise(function (resolve, reject) {
-    //         if (value !== '') {
-    //           resolve();
-    //         } else {
-    //           resolve('You need to select a Tier');
-    //         }
-    //       });
-    //     }
-    //   }).then(function (result) {
-    //     if (result.isConfirmed) {
-    //       Swal.fire({
-    //         icon: 'success',
-    //         html: 'You selected: ' + result.value
-    //       });
-    //     }
-    //   });
-
-    // await db.collection("especialistas").doc(id).delete()
-    // .then(async () =>{
-    //                     Swal.fire(
-    //                         'Eliminado',
-    //                         'El registro ha sido eliminado',
-    //                         'success'
-    //                     ).then(()=>{
-    //                         location.reload();
-    //                     })
-    // })
-    
+}
+const existeEspecialista = (user) =>{
+    let encontrado = false
+    dataEspecialistas.map(e => {
+        if(!encontrado)
+            e.nombreUsuario == user ? encontrado = true : encontrado = false
+    })
+    return encontrado
 }
 formAgregarEspecialista.addEventListener('submit',async (e) =>{
     e.preventDefault();
@@ -116,6 +97,11 @@ formAgregarEspecialista.addEventListener('submit',async (e) =>{
         fechaRegistro: fechaActualFormateada
     }
 
+    if(existeEspecialista(dataEspecialista.nombreUsuario)){
+        await alerta('Registro no valido', "El especialista que intentas registrar, ya se encuentra registrado", 'info');
+        return
+    }
+
     // console.log(dataEspecialista)
     await db.collection("especialistas").add(dataEspecialista).then( async () =>{
         await alerta('Registro exitoso', 'El Especialista se ha registrado correctamente', 'success');
@@ -126,6 +112,7 @@ formAgregarEspecialista.addEventListener('submit',async (e) =>{
     
     
 })
+
 
 
 let editarRegistro = async (idEspecialista) =>{
@@ -172,7 +159,7 @@ let editarRegistro = async (idEspecialista) =>{
         document.getElementById("editarEspecialista").addEventListener('submit', async (e) =>{
             e.preventDefault();
             
-            console.log(document.getElementById("passwordEspecialistaR").value, )
+            // console.log(document.getElementById("passwordEspecialistaR").value, )
 
             let dataEspecialista = {
                 nombre: document.getElementById("nombreEspecialistaR").value,
@@ -181,6 +168,11 @@ let editarRegistro = async (idEspecialista) =>{
                 nombreUsuario: document.getElementById("usuarioEspecialistaR").value,
                 contrasenia: document.getElementById("passwordEspecialistaR")?.value 
             };
+            if(Especialista.nombreUsuario != dataEspecialista.nombreUsuario)
+                if(existeEspecialista(dataEspecialista.nombreUsuario)){
+                await alerta('Registro no valido', "El nombre de usaurio que intentas utilizar, ya se encuentra registrado", 'info');
+                return
+                }
         
             // console.log(dataEspecialista)
             await db.collection("especialistas").doc(idEspecialista).update(dataEspecialista)
@@ -198,49 +190,78 @@ let editarRegistro = async (idEspecialista) =>{
     
     
 }
-
-document.getElementById('btn-busqueda').addEventListener('click', ()=>{
-    let barraBusqueda = document.getElementById('barra-busqueda');
-    let busqueda = barraBusqueda.value.split(' ');
-    let datosTabla = document.getElementById("datosTabla");
-    db.collection("Especialistas")
-    .where("nombre","==",busqueda[0])
-    .where("apellidoPaterno","==",busqueda[1])
-    .get()
-    .then(async (querySnapshot) =>{
-        if(querySnapshot.docs.length == 0){
-            datosTabla.innerHTML = ``;
-            alerta('Especialista no encontrado', 'No existen resultados que coincidan con la busqueda, vuelve a intentarlo', 'info')
-        }else{
-            await alerta('Se encontraron '+ querySnapshot.docs.length +' resultado(s)', 'Los siguientes resultados coincidan con la busqueda', 'success')
-            datosTabla.innerHTML = ``;
-            querySnapshot.forEach(doc =>{
-                datosTabla.innerHTML += `
-                <tr>
-                <td>${doc.data().nombre}</td>
-                <td>${doc.data().apellidoPaterno}</td>
-                <td>${doc.data().apellidoMaterno}</td>
-                <td>${doc.data().fechaRegistro}</td>
-                <td>
-                    <div class="acciones">
-                        <a href="verEspecialista.html?id=${doc.id}"><img src="./assets/img/icons8-eye-50.png" alt="ver" class="icon"></a>
-                        <a onclick="editarRegistro('${doc.id}');"><img src="./assets/img/icons8-pencil-48.png" alt="editar" class="icon"></a>
-                        <a href="#" onclick="eliminarRegistro('${doc.id}')"><img src="./assets/img/icons8-trash-can-60.png" alt="borrar" class="icon"></a>
-                        <a href="listarPruebas.html?id=${doc.id}"><img src="./assets/img/icons8-bulleted-list-50.png" alt="lista" class="icon"></a>
-                    </div>
-                </td>
-            </tr>`
-            })
-        }
-        
-    })
+document.getElementById('barra-busqueda').addEventListener("input", (e) =>{
+    if(e.target.value == ''){
+        let datosTabla = document.getElementById("datosTabla");
+        let mensaje = document.getElementById("mensajeBusqueda");
+        datosTabla.innerHTML = ``;
+        mensaje.innerHTML = ``;
+        dataEspecialistas.map((d,i) =>{
+            actualizarTabla(i)
+        })
+    }else{
+        let res = buscarespecialista(dataEspecialistas, e.target.value)
+    }
 })
+
+const buscarespecialista = (data, valor) =>{
+    // console.log(data)
+    let datosTabla = document.getElementById("datosTabla");
+    let mensaje = document.getElementById("mensajeBusqueda");
+    datosTabla.innerHTML = ``;
+    mensaje.innerHTML = `No se encuentran registros que coincidan con la busqueda`;
+    
+    registrosAConsiderar = []
+    registro = valor.split(' ')
+
+    data.map((especialista, idx) =>{
+        nombreCompleto = especialista.nombre + especialista.apellidoPaterno + especialista.apellidoMaterno
+        for(let i=0; i<registro.length;i++){
+            if(nombreCompleto.includes(registro[i]) || especialista.nombreUsuario.includes(registro[i])){
+                if(!registrosAConsiderar.includes(idx)){
+                    registrosAConsiderar.push(idx) 
+                }    
+            }
+        }
+    })
+    if(registrosAConsiderar.length == 0){
+            datosTabla.innerHTML = ``;
+            mensaje.innerHTML = `No se encuentran registros que coincidan con la busqueda`;
+    }else{
+            datosTabla.innerHTML = ``;
+            mensaje.innerHTML = ``;
+    }   
+    registrosAConsiderar.map(i =>{
+        actualizarTabla(i)
+    })   
+}
 
 document.getElementById('barra-busqueda').addEventListener("change", (e) =>{
     if(e.target.value == ''){
         location.reload();
     }
 })
+
+const actualizarTabla = (index) =>{
+    let datosTabla = document.getElementById("datosTabla");
+    // datosTabla.innerHTML = ``;
+    datosTabla.innerHTML += `
+    <tr>
+    <td>${dataEspecialistas[index].nombre}</td>
+    <td>${dataEspecialistas[index].apellidoPaterno}</td>
+    <td>${dataEspecialistas[index].apellidoMaterno}</td>
+    <td>${dataEspecialistas[index].fechaRegistro}</td>
+    <td>
+        <div class="acciones">
+            <a href="verEspecialista.html?id=${idEspecialistas[index]}"><img src="./assets/img/icons8-eye-50.png" alt="ver" class="icon"></a>
+            <a onclick="editarRegistro('${idEspecialistas[index]}');"><img src="./assets/img/icons8-pencil-48.png" alt="editar" class="icon"></a>
+            <a href="#" onclick="eliminarRegistro('${idEspecialistas[index]}')"><img src="./assets/img/icons8-trash-can-60.png" alt="borrar" class="icon"></a>
+            <a href="listarPruebas.html?id=${idEspecialistas[index]}"><img src="./assets/img/icons8-bulleted-list-50.png" alt="lista" class="icon"></a>
+        </div>
+    </td>
+</tr>`
+
+}
 
 const capitalizarPalabras = (val) => {  
     return val.toLowerCase()

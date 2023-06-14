@@ -33,17 +33,20 @@
                
            </div>
         </div>
-        <div class="titulo-home caja"> <h4>Buscar paciente</h4></div>
+        <div class="titulo-home caja"> <h3>Buscar paciente</h3></div>
         <div class="barraBusqueda-home caja">
-                <input placeholder="Ej. Beatriz Contreras" id="barra-busqueda" class="form-control" type="text">
-                <button id="btn-busqueda" class="btn-buscar-home btn btn-dark">Buscar</button>
+                <input placeholder="Nombre completo o CURP del paciente" id="barra-busqueda" class="form-control" type="text">
+                <div></div>
+                <!-- <button id="btn-busqueda" class="btn-buscar-home btn btn-dark">Buscar</button> -->
         </div>
-        <div class="agregarRegistro-home caja">
-            <a id="agregarRegistro-icon" data-toggle="modal" data-target="#agregarRegistroModal" class="text-dark">
+        <div class="agregarRegistro-home">
+            <div><h4 class="text-center caja"> Lista de pacientes</h4></div>
+            <div><a id="agregarRegistro-icon" data-toggle="modal" data-target="#agregarRegistroModal" class="text-dark">
                 <img src="./assets/img/icons8-add-new-50.png" alt="ver-perfil" class="icon mr-1">
-                <span>Agregar registro</span>
-            </a>
+                <span>Registrar paciente</span>
+            </a></div>
         </div>
+        
         <div class="tablaRegistros-home caja">
             <table id="tablaRegistros" class="table table-hover text-center ">
                 <thead>
@@ -71,6 +74,7 @@
                 </tbody>
             </table>
         </div>
+        <div id="mensajeBusqueda" ></div>
     </div>
 </body>
 
@@ -114,7 +118,7 @@
                         <!-- <button class="btn btn-secondary mt-2" type="button">Agregar otro telefono</button> -->
                     </div>
                     
-                    <label for="parentezcoTutor" class="col-form-label">Parentezco: *</label><br>
+                    <label for="parentezcoTutor" class="col-form-label">Parentesco: *</label><br>
                     <select class="custom-select" name="parentezco" id="parentezcoTutor">
                         <option>Padre</option>
                         <option>Hermano</option>
